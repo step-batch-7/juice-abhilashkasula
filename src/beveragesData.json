@@ -5,8 +5,6 @@
     { "beverage": "orange", "qty": 1, "date": "2019-11-24T10:41:21.996Z" }
   ],
   "25323": [
-    { "beverage": "orange", "qty": 1, "date": "2019-11-24T10:42:14.196Z" },
-    { "beverage": "orange", "qty": 1, "date": "2019-11-24T10:46:03.097Z" },
-    { "beverage": "orange", "qty": 1, "date": "2019-11-24T10:47:54.759Z" }
+    { "beverage": "orange", "qty": 1, "date": "2019-11-24T10:42:14.196Z" }
   ]
 }
