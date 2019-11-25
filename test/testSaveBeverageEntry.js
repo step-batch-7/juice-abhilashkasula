@@ -3,9 +3,7 @@ const saveBeverageEntry = require("../src/saveBeveragesEntry.js")
   .saveBeverageEntry;
 const fs = require("fs");
 
-const write = function(path) {
-  return path;
-};
+const write = function(path) {};
 
 const getDate = function(date) {
   return date;
