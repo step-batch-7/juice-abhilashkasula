@@ -11,11 +11,11 @@ const pairUserEnteredValues = function(userEnteredValues) {
   }, {});
 };
 
-const getBeveragesData = function(read, path) {
+const getBeveragesData = function(read, path, isExists) {
   let prevTransactions = {};
-  try {
+  if (isExists(path)) {
     prevTransactions = JSON.parse(read(path, "utf8"));
-  } catch (e) {}
+  }
   return prevTransactions;
 };
 

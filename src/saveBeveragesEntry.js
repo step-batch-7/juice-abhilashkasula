@@ -8,13 +8,14 @@ const createNewUserTransaction = function(prevTransactions, userEnteredEmpId) {
 const saveBeverageEntry = function(
   read,
   path,
+  isExists,
   pairedUserEnteredValues,
   getDate
 ) {
   const userEnteredEmpId = pairedUserEnteredValues["--empId"];
   const userEnteredBeverage = pairedUserEnteredValues["--beverage"];
   const userEnteredQty = pairedUserEnteredValues["--qty"];
-  let prevTransactions = getBeveragesData(read, path);
+  let prevTransactions = getBeveragesData(read, path, isExists);
   let empBeverages = prevTransactions[userEnteredEmpId];
   if (!empBeverages) {
     empBeverages = createNewUserTransaction(prevTransactions, userEnteredEmpId);

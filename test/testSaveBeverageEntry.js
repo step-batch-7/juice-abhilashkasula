@@ -7,13 +7,17 @@ const getDate = function() {
   return "2019-11-24T07:43:28.618Z";
 };
 
+const isExists = function(data) {
+  return data;
+};
+
 describe("saveBeverageEntry", function() {
   it("should add new beverage entry and return the added transaction and updated beverages when no data found in the file", function() {
     const read = function(data) {
       return data;
     };
 
-    let data = {};
+    let data = "{}";
     let pairedOptions = {
       "--beverage": "orange",
       "--qty": 1,
@@ -44,7 +48,7 @@ describe("saveBeverageEntry", function() {
       ]
     };
     assert.deepStrictEqual(
-      saveBeverageEntry(read, data, pairedOptions, getDate),
+      saveBeverageEntry(read, data, isExists, pairedOptions, getDate),
       expected
     );
   });
@@ -92,7 +96,7 @@ describe("saveBeverageEntry", function() {
       ]
     };
     assert.deepStrictEqual(
-      saveBeverageEntry(read, data, pairedOptions, getDate),
+      saveBeverageEntry(read, data, isExists, pairedOptions, getDate),
       expected
     );
   });
@@ -139,7 +143,7 @@ describe("saveBeverageEntry", function() {
     };
 
     assert.deepStrictEqual(
-      saveBeverageEntry(read, data, pairedOptions, getDate),
+      saveBeverageEntry(read, data, isExists, pairedOptions, getDate),
       expected
     );
   });
@@ -178,7 +182,7 @@ describe("saveBeverageEntry", function() {
       ]
     };
     assert.deepStrictEqual(
-      saveBeverageEntry(read, path, pairedOptions, getDate),
+      saveBeverageEntry(read, path, fs.existsSync, pairedOptions, getDate),
       expected
     );
   });

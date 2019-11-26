@@ -33,6 +33,9 @@ describe("getBeveragesData", function() {
     const read = function(path) {
       return path;
     };
+    const isExists = function(path) {
+      return true;
+    };
     const data =
       '{"25323":[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"}]}';
     const expected = {
@@ -45,7 +48,7 @@ describe("getBeveragesData", function() {
         }
       ]
     };
-    assert.deepStrictEqual(getBeveragesData(read, data), expected);
+    assert.deepStrictEqual(getBeveragesData(read, data, isExists), expected);
   });
 });
 

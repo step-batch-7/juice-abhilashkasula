@@ -6,7 +6,14 @@ const getAsMessage = require("./utils.js").getAsMessage;
 const areArgsNotValid = require("./utils.js").areArgsNotValid;
 const getUsage = require("./utils.js").getUsage;
 
-const processTransaction = function(read, path, userArgs, write, getDate) {
+const processTransaction = function(
+  read,
+  path,
+  userArgs,
+  write,
+  isExists,
+  getDate
+) {
   const operations = {
     "--save": [saveBeverageEntry, "save"],
     "--query": [query, "query"]
@@ -22,6 +29,7 @@ const processTransaction = function(read, path, userArgs, write, getDate) {
   const beveragesDataAndTransactionDetails = transaction[0](
     read,
     path,
+    isExists,
     pairedUserEnteredValues,
     getDate
   );

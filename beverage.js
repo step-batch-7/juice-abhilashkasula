@@ -9,6 +9,7 @@ const main = function() {
     "./src/beveragesData.json",
     userArgs,
     fs.writeFileSync,
+    fs.existsSync,
     function() {
       return new Date().toJSON();
     }

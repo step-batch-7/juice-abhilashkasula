@@ -11,6 +11,9 @@ describe("processTransaction", function() {
     const getDate = function() {
       return "2019-11-24T07:43:28.618Z";
     };
+    const isExists = function(data) {
+      return true;
+    };
     const data = "{}";
     const userArgs = [
       "--save",
@@ -24,13 +27,16 @@ describe("processTransaction", function() {
     const expected =
       "Transaction Recorded:\nEmployee ID,Beverage,Quantity,Date\n11111,orange,1,2019-11-24T07:43:28.618Z";
     assert.deepStrictEqual(
-      processTransaction(read, data, userArgs, write, getDate),
+      processTransaction(read, data, userArgs, write, isExists, getDate),
       expected
     );
   });
   it("should return a string with transaction recorded for --save option for emp found", function() {
     const read = function(data) {
       return data;
+    };
+    const isExists = function(data) {
+      return true;
     };
     const write = function(data) {};
     const getDate = function() {
@@ -50,13 +56,16 @@ describe("processTransaction", function() {
     const expected =
       "Transaction Recorded:\nEmployee ID,Beverage,Quantity,Date\n11111,orange,1,2019-11-24T07:43:28.618Z";
     assert.deepStrictEqual(
-      processTransaction(read, data, userArgs, write, getDate),
+      processTransaction(read, data, userArgs, write, isExists, getDate),
       expected
     );
   });
   it("should return a string consists of employee beverages and total beverages for --query", function() {
     const read = function(data) {
       return data;
+    };
+    const isExists = function(data) {
+      return true;
     };
     const write = function(data) {};
     const getDate = function() {
@@ -68,13 +77,16 @@ describe("processTransaction", function() {
     const expected =
       "Employee ID,Beverage,Quantity,Date\n11111,orange,1,2019-11-23T04:06:35.711Z\nTotal:1";
     assert.deepStrictEqual(
-      processTransaction(read, data, userArgs, write, getDate),
+      processTransaction(read, data, userArgs, write, isExists, getDate),
       expected
     );
   });
   it("should return a string consists of employee beverages and total beverages for --query when there are more than one beverages", function() {
     const read = function(data) {
       return data;
+    };
+    const isExists = function(data) {
+      return true;
     };
     const write = function(data) {};
     const getDate = function() {
@@ -86,13 +98,16 @@ describe("processTransaction", function() {
     const expected =
       "Employee ID,Beverage,Quantity,Date\n11111,orange,1,2019-11-23T04:06:35.711Z\n11111,pineapple,5,2019-11-23T04:06:35.800Z\nTotal:6";
     assert.deepStrictEqual(
-      processTransaction(read, data, userArgs, write, getDate),
+      processTransaction(read, data, userArgs, write, isExists, getDate),
       expected
     );
   });
   it("should return no data found for --query when there is no employee", function() {
     const read = function(data) {
       return data;
+    };
+    const isExists = function(data) {
+      return true;
     };
     const write = function(data) {};
     const getDate = function() {
@@ -102,13 +117,16 @@ describe("processTransaction", function() {
     const userArgs = ["--query", "--empId", "11111"];
     const expected = "no previous records found for this employee";
     assert.deepStrictEqual(
-      processTransaction(read, data, userArgs, write, getDate),
+      processTransaction(read, data, userArgs, write, isExists, getDate),
       expected
     );
   });
   it("should return usage when there command other than --save or --query", function() {
     const read = function(data) {
       return data;
+    };
+    const isExists = function(data) {
+      return true;
     };
     const write = function(data) {};
     const getDate = function() {
@@ -119,7 +137,7 @@ describe("processTransaction", function() {
     const expected =
       "node beverage.js --save --beverage [beverage value]--empId [empId value] --qty [qty value]\n\t\t--query --empId[empId value]";
     assert.deepStrictEqual(
-      processTransaction(read, data, userArgs, write, getDate),
+      processTransaction(read, data, userArgs, write, isExists, getDate),
       expected
     );
   });

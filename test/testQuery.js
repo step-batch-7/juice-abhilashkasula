@@ -6,6 +6,10 @@ const read = function(data) {
   return data;
 };
 
+const isExists = function(data) {
+  return data;
+};
+
 describe("query", function() {
   it("should return the transaction details and beverages for already available records", function() {
     let pairedOptions = { "--empId": 25323 };
@@ -35,7 +39,10 @@ describe("query", function() {
         "\nTotal:" + 1
       ]
     };
-    assert.deepStrictEqual(query(read, data, pairedOptions), expected);
+    assert.deepStrictEqual(
+      query(read, data, isExists, pairedOptions),
+      expected
+    );
   });
   it("should return false when employee's details are not available ", function() {
     let pairedOptions = { "--empId": 34543 };
@@ -43,7 +50,7 @@ describe("query", function() {
       '{"25323":[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"}]}';
     let expected = false;
     assert.deepStrictEqual(
-      query(read, "./src/beveragesData.json", pairedOptions),
+      query(read, data, isExists, pairedOptions),
       expected
     );
   });
