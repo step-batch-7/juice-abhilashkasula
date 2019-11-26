@@ -2,6 +2,7 @@ const assert = require("assert");
 const pairUserEnteredValues = require("../src/utils.js").pairUserEnteredValues;
 const getBeveragesData = require("../src/utils.js").getBeveragesData;
 const getAsMessage = require("../src/utils.js").getAsMessage;
+const areArgsNotValid = require("../src/utils.js").areArgsNotValid;
 
 describe("pairUserEnteredValues", function() {
   it("should return a paired object for one pair", function() {
@@ -81,5 +82,50 @@ describe("getAsMessage", function() {
     const expected =
       "Employee ID,Beverage,Quantity,date\n25323,orange,1,2019-11-25T18:27:52.164Z\nTotal:1";
     assert.equal(getAsMessage(transactionDetails), expected);
+  });
+});
+
+describe("areArgsNotValid", function() {
+  it("should determine false for valid values given in any order for save", function() {
+    const transaction = "save";
+    let pairedUserEnteredValues = {
+      "--empId": "11111",
+      "--beverage": "orange",
+      "--qty": "1"
+    };
+    assert.ok(!areArgsNotValid(transaction, pairedUserEnteredValues));
+    pairedUserEnteredValues = {
+      "--qty": "1",
+      "--beverage": "orange",
+      "--empId": "11111"
+    };
+    assert.ok(!areArgsNotValid(transaction, pairedUserEnteredValues));
+  });
+  it("should determine false for valid values for query", function() {
+    const transaction = "query";
+    let pairedUserEnteredValues = { "--empId": "11111" };
+    assert.ok(!areArgsNotValid(transaction, pairedUserEnteredValues));
+  });
+  it("should determine true for any value missing for save", function() {
+    const transaction = "save";
+    let pairedUserEnteredValues = {
+      "--empId": "11111",
+      "--beverage": "orange"
+    };
+    assert.ok(areArgsNotValid(transaction, pairedUserEnteredValues));
+  });
+  it("should determine true for any value missing for query", function() {
+    const transaction = "query";
+    let pairedUserEnteredValues = {};
+    assert.ok(areArgsNotValid(transaction, pairedUserEnteredValues));
+  });
+  it("should determine true for command other than save", function() {
+    const transaction = undefined;
+    pairedUserEnteredValues = {
+      "--qty": "1",
+      "--beverage": "orange",
+      "--empId": "11111"
+    };
+    assert.ok(areArgsNotValid(transaction, pairedUserEnteredValues));
   });
 });

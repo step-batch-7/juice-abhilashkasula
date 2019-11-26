@@ -100,7 +100,24 @@ describe("processTransaction", function() {
     };
     const data = "{}";
     const userArgs = ["--query", "--empId", "11111"];
-    const expected = "no data found";
+    const expected = "no previous records found for this employee";
+    assert.deepStrictEqual(
+      processTransaction(read, data, userArgs, write, getDate),
+      expected
+    );
+  });
+  it("should return usage when there command other than --save or --query", function() {
+    const read = function(data) {
+      return data;
+    };
+    const write = function(data) {};
+    const getDate = function() {
+      return "2019-11-24T07:43:28.618Z";
+    };
+    const data = "{}";
+    const userArgs = ["get", "--empId", "11111"];
+    const expected =
+      "node beverage.js --save --beverage [beverage value]--empId [empId value] --qty [qty value]\n\t\t--query --empId[empId value]";
     assert.deepStrictEqual(
       processTransaction(read, data, userArgs, write, getDate),
       expected

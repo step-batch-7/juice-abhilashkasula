@@ -34,7 +34,39 @@ const getAsMessage = function(transactionDetails) {
   return message + transactionValues.join("\n") + remaining;
 };
 
+const areKeysValidForSave = function(pairedUserEnteredValues) {
+  const userKeys = Object.keys(pairedUserEnteredValues);
+  return ["--empId", "--beverage", "--qty"].every(function(key) {
+    return userKeys.includes(key);
+  });
+};
+
+const areKeysValidForQuery = function(pairedUserEnteredValues) {
+  const userKeys = Object.keys(pairedUserEnteredValues);
+  return ["--empId"].every(function(key) {
+    return userKeys.includes(key);
+  });
+};
+
+const areArgsNotValid = function(transaction, pairedUserEnteredValues) {
+  const builtinTransactions = {
+    save: areKeysValidForSave,
+    query: areKeysValidForQuery
+  };
+  const areKeysValid = builtinTransactions[transaction];
+  if (!areKeysValid) {
+    return true;
+  }
+  return !areKeysValid(pairedUserEnteredValues);
+};
+
+const getUsage = function() {
+  return "node beverage.js --save --beverage [beverage value]--empId [empId value] --qty [qty value]\n\t\t--query --empId[empId value]";
+};
+
 exports.pairUserEnteredValues = pairUserEnteredValues;
 exports.getBeveragesData = getBeveragesData;
 exports.writeBeverages = writeBeverages;
 exports.getAsMessage = getAsMessage;
+exports.areArgsNotValid = areArgsNotValid;
+exports.getUsage = getUsage;
