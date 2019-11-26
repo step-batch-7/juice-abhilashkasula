@@ -1,3 +1,5 @@
+const getBeveragesData = require("./utils.js").getBeveragesData;
+
 const createNewUserTransaction = function(prevTransactions, userEnteredEmpId) {
   prevTransactions[userEnteredEmpId] = [];
   return prevTransactions[userEnteredEmpId];
@@ -5,33 +7,32 @@ const createNewUserTransaction = function(prevTransactions, userEnteredEmpId) {
 
 const saveBeverageEntry = function(
   read,
-  write,
   path,
-  pairedOptions,
-  getDate,
-  date
+  pairedUserEnteredValues,
+  getDate
 ) {
-  let prevTransactions = {};
-  const userEnteredEmpId = pairedOptions["--empId"];
-  const userEnteredBeverage = pairedOptions["--beverage"];
-  const userEnteredQty = pairedOptions["--qty"];
-  try {
-    prevTransactions = read(path);
-  } catch (e) {}
+  const userEnteredEmpId = pairedUserEnteredValues["--empId"];
+  const userEnteredBeverage = pairedUserEnteredValues["--beverage"];
+  const userEnteredQty = pairedUserEnteredValues["--qty"];
+  let prevTransactions = getBeveragesData(read, path);
   let empBeverages = prevTransactions[userEnteredEmpId];
   if (!empBeverages) {
     empBeverages = createNewUserTransaction(prevTransactions, userEnteredEmpId);
   }
   let transaction = {
+    empId: userEnteredEmpId,
     beverage: userEnteredBeverage,
     qty: userEnteredQty,
-    date: getDate(date)
+    date: getDate()
   };
   empBeverages.push(transaction);
-  write(path, prevTransactions);
+
   return {
-    "transaction status": "Transaction Recorded",
-    "transaction details": transaction
+    beveragesData: prevTransactions,
+    transactionDetails: [
+      "Transaction Recorded:\nEmployee ID,Beverage,Quantity,Date\n",
+      [transaction]
+    ]
   };
 };
 

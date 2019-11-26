@@ -3,111 +3,147 @@ const saveBeverageEntry = require("../src/saveBeveragesEntry.js")
   .saveBeverageEntry;
 const fs = require("fs");
 
-const write = function(path) {};
-
-const getDate = function(date) {
-  return date;
+const getDate = function() {
+  return "2019-11-24T07:43:28.618Z";
 };
 
 describe("saveBeverageEntry", function() {
-  it("should add new beverage entry and return the added transaction when no data found in the file", function() {
-    const read = function(path) {
-      return path;
+  it("should add new beverage entry and return the added transaction and updated beverages when no data found in the file", function() {
+    const read = function(data) {
+      return data;
     };
 
-    let path = {};
+    let data = {};
     let pairedOptions = {
       "--beverage": "orange",
       "--qty": 1,
       "--empId": 11111
     };
+
     let expected = {
-      "transaction status": "Transaction Recorded",
-      "transaction details": {
-        beverage: "orange",
-        qty: 1,
-        date: "2019-11-24T07:43:28.618Z"
-      }
+      beveragesData: {
+        "11111": [
+          {
+            empId: 11111,
+            beverage: "orange",
+            qty: 1,
+            date: "2019-11-24T07:43:28.618Z"
+          }
+        ]
+      },
+      transactionDetails: [
+        "Transaction Recorded:\nEmployee ID,Beverage,Quantity,Date\n",
+        [
+          {
+            empId: 11111,
+            beverage: "orange",
+            qty: 1,
+            date: "2019-11-24T07:43:28.618Z"
+          }
+        ]
+      ]
     };
     assert.deepStrictEqual(
-      saveBeverageEntry(
-        read,
-        write,
-        path,
-        pairedOptions,
-        getDate,
-        "2019-11-24T07:43:28.618Z"
-      ),
+      saveBeverageEntry(read, data, pairedOptions, getDate),
       expected
     );
   });
-  it("should add new beverage entry and return the added transaction when the entered emp is not found in the file", function() {
-    const read = function(path) {
-      return path;
+  it("should add new beverage entry and return the added transaction and updated beverages when the entered emp is not found in the file", function() {
+    const read = function(data) {
+      return data;
     };
 
-    let path = {
-      11111: [{ beverage: "orange", qty: 1, date: "2019-11-23T04:06:35.711Z" }]
-    };
+    let data =
+      '{"11111":[{"empId":11111,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"}]}';
     let pairedOptions = {
       "--beverage": "orange",
       "--qty": 1,
       "--empId": 25323
     };
     let expected = {
-      "transaction status": "Transaction Recorded",
-      "transaction details": {
-        beverage: "orange",
-        qty: 1,
-        date: "2019-11-24T07:43:28.618Z"
-      }
+      beveragesData: {
+        11111: [
+          {
+            empId: 11111,
+            beverage: "orange",
+            qty: 1,
+            date: "2019-11-23T04:06:35.711Z"
+          }
+        ],
+        25323: [
+          {
+            empId: 25323,
+            beverage: "orange",
+            qty: 1,
+            date: "2019-11-24T07:43:28.618Z"
+          }
+        ]
+      },
+      transactionDetails: [
+        "Transaction Recorded:\nEmployee ID,Beverage,Quantity,Date\n",
+        [
+          {
+            empId: 25323,
+            beverage: "orange",
+            qty: 1,
+            date: "2019-11-24T07:43:28.618Z"
+          }
+        ]
+      ]
     };
     assert.deepStrictEqual(
-      saveBeverageEntry(
-        read,
-        write,
-        path,
-        pairedOptions,
-        getDate,
-        "2019-11-24T07:43:28.618Z"
-      ),
+      saveBeverageEntry(read, data, pairedOptions, getDate),
       expected
     );
   });
-  it("should add new beverage entry in the existing emp and return the added transaction when the entered emp is found in the file", function() {
-    const read = function(path) {
-      return path;
+  it("should add new beverage entry in the existing emp and return the added transaction and updated beverages when the entered emp is found in the file", function() {
+    const read = function(data) {
+      return data;
     };
 
-    let path = {
-      11111: [{ beverage: "orange", qty: 1, date: "2019-11-23T04:06:35.711Z" }]
-    };
+    let data =
+      '{"25323":[{"empId":25323,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"}]}';
     let pairedOptions = {
       "--beverage": "orange",
       "--qty": 1,
       "--empId": 25323
     };
     let expected = {
-      "transaction status": "Transaction Recorded",
-      "transaction details": {
-        beverage: "orange",
-        qty: 1,
-        date: "2019-11-24T07:43:28.618Z"
-      }
+      beveragesData: {
+        "25323": [
+          {
+            empId: 25323,
+            beverage: "orange",
+            qty: 1,
+            date: "2019-11-23T04:06:35.711Z"
+          },
+          {
+            empId: 25323,
+            beverage: "orange",
+            qty: 1,
+            date: "2019-11-24T07:43:28.618Z"
+          }
+        ]
+      },
+      transactionDetails: [
+        "Transaction Recorded:\nEmployee ID,Beverage,Quantity,Date\n",
+        [
+          {
+            empId: 25323,
+            beverage: "orange",
+            qty: 1,
+            date: "2019-11-24T07:43:28.618Z"
+          }
+        ]
+      ]
     };
+
     assert.deepStrictEqual(
-      saveBeverageEntry(
-        read,
-        write,
-        path,
-        pairedOptions,
-        getDate,
-        "2019-11-24T07:43:28.618Z"
-      ),
+      saveBeverageEntry(read, data, pairedOptions, getDate),
       expected
     );
   });
-  it("should create file and add new beverage entry and return the added transaction when there is no sfile", function() {
+  it("should create file and add new beverage entry and return the added transaction and updated beverages when there is no sfile", function() {
     const read = function(path) {
       return JSON.parse(fs.readFileSync(path));
     };
@@ -119,22 +155,30 @@ describe("saveBeverageEntry", function() {
       "--empId": 25323
     };
     let expected = {
-      "transaction status": "Transaction Recorded",
-      "transaction details": {
-        beverage: "orange",
-        qty: 1,
-        date: "2019-11-24T07:43:28.618Z"
-      }
+      beveragesData: {
+        "25323": [
+          {
+            empId: 25323,
+            beverage: "orange",
+            qty: 1,
+            date: "2019-11-24T07:43:28.618Z"
+          }
+        ]
+      },
+      transactionDetails: [
+        "Transaction Recorded:\nEmployee ID,Beverage,Quantity,Date\n",
+        [
+          {
+            empId: 25323,
+            beverage: "orange",
+            qty: 1,
+            date: "2019-11-24T07:43:28.618Z"
+          }
+        ]
+      ]
     };
     assert.deepStrictEqual(
-      saveBeverageEntry(
-        read,
-        write,
-        path,
-        pairedOptions,
-        getDate,
-        "2019-11-24T07:43:28.618Z"
-      ),
+      saveBeverageEntry(read, path, pairedOptions, getDate),
       expected
     );
   });
