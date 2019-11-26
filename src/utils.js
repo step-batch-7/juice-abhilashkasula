@@ -1,9 +1,5 @@
 const fs = require("fs");
 
-const getDate = function() {
-  return new Date().toJSON();
-};
-
 const pairUserEnteredValues = function(userEnteredValues) {
   let pairs = [];
   for (let index = 0; index < userEnteredValues.length; index += 2) {
@@ -38,7 +34,6 @@ const getAsMessage = function(transactionDetails) {
   return message + transactionValues.join("\n") + remaining;
 };
 
-exports.getDate = getDate;
 exports.pairUserEnteredValues = pairUserEnteredValues;
 exports.getBeveragesData = getBeveragesData;
 exports.writeBeverages = writeBeverages;
