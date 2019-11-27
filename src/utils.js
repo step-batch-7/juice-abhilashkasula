@@ -1,5 +1,12 @@
 const fs = require("fs");
 
+const getTotal = function(beveragesData) {
+  return beveragesData.reduce(function(total, obj) {
+    let value = +obj.qty;
+    return total + value;
+  }, 0);
+};
+
 const pairUserEnteredValues = function(userEnteredValues) {
   let pairs = [];
   for (let index = 0; index < userEnteredValues.length; index += 2) {
@@ -34,6 +41,63 @@ const getAsMessage = function(transactionDetails) {
   return message + transactionValues.join("\n") + remaining;
 };
 
+const loadBeveragesOnId = function(beveragesDate, empId) {
+  let empBeverages = {};
+  if (empId == undefined) {
+    return beveragesDate;
+  }
+  let beverage = beveragesDate[empId];
+  if (beverage != undefined) {
+    empBeverages[empId] = beverage;
+  }
+  return empBeverages;
+};
+
+const loadBeveragesOnDate = function(beveragesData, userEnteredDate) {
+  let employees = Object.keys(beveragesData);
+  if (userEnteredDate == undefined) {
+    return beveragesData;
+  }
+  return employees.reduce(function(addedEmployees, employee) {
+    let beveragesOnDate = beveragesData[employee].reduce(function(
+      addedBeverages,
+      beverages
+    ) {
+      if (beverages["date"].includes(userEnteredDate)) {
+        addedBeverages.push(beverages);
+      }
+      return addedBeverages;
+    },
+    []);
+    if (beveragesOnDate != 0) {
+      addedEmployees[employee] = beveragesOnDate;
+    }
+    return addedEmployees;
+  }, {});
+};
+
+const loadBeveragesOnEmpIdAndDate = function(
+  beveragesData,
+  userEnteredId,
+  userEnteredDate
+) {
+  if (userEnteredDate == undefined && userEnteredId == undefined) {
+    return {};
+  }
+  return loadBeveragesOnDate(
+    loadBeveragesOnId(beveragesData, userEnteredId),
+    userEnteredDate
+  );
+};
+
+const combineBeverages = function(beveragesData) {
+  const employees = Object.keys(beveragesData);
+  return employees.reduce(function(combinedBeverages, emp) {
+    combinedBeverages = combinedBeverages.concat(beveragesData[emp]);
+    return combinedBeverages;
+  }, []);
+};
+
 const areKeysValidForSave = function(pairedUserEnteredValues) {
   const userKeys = Object.keys(pairedUserEnteredValues);
   return ["--empId", "--beverage", "--qty"].every(function(key) {
@@ -43,7 +107,7 @@ const areKeysValidForSave = function(pairedUserEnteredValues) {
 
 const areKeysValidForQuery = function(pairedUserEnteredValues) {
   const userKeys = Object.keys(pairedUserEnteredValues);
-  return ["--empId"].every(function(key) {
+  return ["--empId", "--date"].some(function(key) {
     return userKeys.includes(key);
   });
 };
@@ -70,3 +134,6 @@ exports.writeBeverages = writeBeverages;
 exports.getAsMessage = getAsMessage;
 exports.areArgsNotValid = areArgsNotValid;
 exports.getUsage = getUsage;
+exports.loadBeveragesOnEmpIdAndDate = loadBeveragesOnEmpIdAndDate;
+exports.combineBeverages = combineBeverages;
+exports.getTotal = getTotal;

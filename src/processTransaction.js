@@ -37,7 +37,7 @@ const processTransaction = function(
     beveragesDataAndTransactionDetails["beveragesData"];
   const transactionDetails =
     beveragesDataAndTransactionDetails["transactionDetails"];
-  if (!transactionDetails) {
+  if (!transactionDetails[1]) {
     return "no previous records found for this employee";
   }
   writeBeverages(beveragesDataToBeSaved, path, write);
