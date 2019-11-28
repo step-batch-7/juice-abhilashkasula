@@ -17,7 +17,7 @@ describe("saveBeverageEntry", function() {
       return data;
     };
 
-    let data = "{}";
+    let data = "[]";
     let pairedOptions = {
       "--beverage": "orange",
       "--qty": 1,
@@ -25,16 +25,14 @@ describe("saveBeverageEntry", function() {
     };
 
     let expected = {
-      beveragesData: {
-        "11111": [
-          {
-            empId: 11111,
-            beverage: "orange",
-            qty: 1,
-            date: "2019-11-24T07:43:28.618Z"
-          }
-        ]
-      },
+      beveragesData: [
+        {
+          empId: 11111,
+          beverage: "orange",
+          qty: 1,
+          date: "2019-11-24T07:43:28.618Z"
+        }
+      ],
       transactionDetails: [
         "Transaction Recorded:\nEmployee ID,Beverage,Quantity,Date\n",
         [
@@ -58,31 +56,27 @@ describe("saveBeverageEntry", function() {
     };
 
     let data =
-      '{"11111":[{"empId":11111,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"}]}';
+      '[{"empId":11111,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"}]';
     let pairedOptions = {
       "--beverage": "orange",
       "--qty": 1,
       "--empId": 25323
     };
     let expected = {
-      beveragesData: {
-        11111: [
-          {
-            empId: 11111,
-            beverage: "orange",
-            qty: 1,
-            date: "2019-11-23T04:06:35.711Z"
-          }
-        ],
-        25323: [
-          {
-            empId: 25323,
-            beverage: "orange",
-            qty: 1,
-            date: "2019-11-24T07:43:28.618Z"
-          }
-        ]
-      },
+      beveragesData: [
+        {
+          empId: 11111,
+          beverage: "orange",
+          qty: 1,
+          date: "2019-11-23T04:06:35.711Z"
+        },
+        {
+          empId: 25323,
+          beverage: "orange",
+          qty: 1,
+          date: "2019-11-24T07:43:28.618Z"
+        }
+      ],
       transactionDetails: [
         "Transaction Recorded:\nEmployee ID,Beverage,Quantity,Date\n",
         [
@@ -106,29 +100,27 @@ describe("saveBeverageEntry", function() {
     };
 
     let data =
-      '{"25323":[{"empId":25323,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"}]}';
+      '[{"empId":25323,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"}]';
     let pairedOptions = {
       "--beverage": "orange",
       "--qty": 1,
       "--empId": 25323
     };
     let expected = {
-      beveragesData: {
-        "25323": [
-          {
-            empId: 25323,
-            beverage: "orange",
-            qty: 1,
-            date: "2019-11-23T04:06:35.711Z"
-          },
-          {
-            empId: 25323,
-            beverage: "orange",
-            qty: 1,
-            date: "2019-11-24T07:43:28.618Z"
-          }
-        ]
-      },
+      beveragesData: [
+        {
+          empId: 25323,
+          beverage: "orange",
+          qty: 1,
+          date: "2019-11-23T04:06:35.711Z"
+        },
+        {
+          empId: 25323,
+          beverage: "orange",
+          qty: 1,
+          date: "2019-11-24T07:43:28.618Z"
+        }
+      ],
       transactionDetails: [
         "Transaction Recorded:\nEmployee ID,Beverage,Quantity,Date\n",
         [
@@ -159,16 +151,14 @@ describe("saveBeverageEntry", function() {
       "--empId": 25323
     };
     let expected = {
-      beveragesData: {
-        "25323": [
-          {
-            empId: 25323,
-            beverage: "orange",
-            qty: 1,
-            date: "2019-11-24T07:43:28.618Z"
-          }
-        ]
-      },
+      beveragesData: [
+        {
+          empId: 25323,
+          beverage: "orange",
+          qty: 1,
+          date: "2019-11-24T07:43:28.618Z"
+        }
+      ],
       transactionDetails: [
         "Transaction Recorded:\nEmployee ID,Beverage,Quantity,Date\n",
         [

@@ -1,6 +1,9 @@
 const fs = require("fs");
 
 const getTotal = function(beveragesData) {
+  if (!beveragesData) {
+    return 0;
+  }
   return beveragesData.reduce(function(total, obj) {
     let value = +obj.qty;
     return total + value;
@@ -19,7 +22,7 @@ const pairUserEnteredValues = function(userEnteredValues) {
 };
 
 const getBeveragesData = function(read, path, isExists) {
-  let prevTransactions = {};
+  let prevTransactions = [];
   if (isExists(path)) {
     prevTransactions = JSON.parse(read(path, "utf8"));
   }
@@ -41,62 +44,31 @@ const getAsMessage = function(transactionDetails) {
   return message + transactionValues.join("\n") + remaining;
 };
 
-const loadBeveragesOnId = function(beveragesDate, empId) {
-  let empBeverages = {};
-  if (empId == undefined) {
-    return beveragesDate;
+const loadBeveragesOnId = function(beveragesData, userEnteredEmpId) {
+  if (userEnteredEmpId == undefined) {
+    return beveragesData;
   }
-  let beverage = beveragesDate[empId];
-  if (beverage != undefined) {
-    empBeverages[empId] = beverage;
-  }
-  return empBeverages;
+  return beveragesData.filter(function(beverageTransaction) {
+    return beverageTransaction["empId"] == userEnteredEmpId;
+  });
 };
 
 const loadBeveragesOnDate = function(beveragesData, userEnteredDate) {
-  let employees = Object.keys(beveragesData);
   if (userEnteredDate == undefined) {
     return beveragesData;
   }
-  return employees.reduce(function(addedEmployees, employee) {
-    let beveragesOnDate = beveragesData[employee].reduce(function(
-      addedBeverages,
-      beverages
-    ) {
-      if (beverages["date"].includes(userEnteredDate)) {
-        addedBeverages.push(beverages);
-      }
-      return addedBeverages;
-    },
-    []);
-    if (beveragesOnDate != 0) {
-      addedEmployees[employee] = beveragesOnDate;
-    }
-    return addedEmployees;
-  }, {});
+  return beveragesData.filter(function(beverageTransaction) {
+    return beverageTransaction["date"].includes(userEnteredDate);
+  });
 };
 
 const loadBeveragesOnBeverage = function(beveragesData, userEnteredBeverage) {
-  let employees = Object.keys(beveragesData);
   if (userEnteredBeverage == undefined) {
     return beveragesData;
   }
-  return employees.reduce(function(addedEmployees, employee) {
-    let beveragesOnEnteredBeverage = beveragesData[employee].reduce(function(
-      addedBeverages,
-      beverages
-    ) {
-      if (beverages["beverage"].includes(userEnteredBeverage)) {
-        addedBeverages.push(beverages);
-      }
-      return addedBeverages;
-    },
-    []);
-    if (beveragesOnEnteredBeverage != 0) {
-      addedEmployees[employee] = beveragesOnEnteredBeverage;
-    }
-    return addedEmployees;
-  }, {});
+  return beveragesData.filter(function(beverageTransaction) {
+    return beverageTransaction["beverage"] == userEnteredBeverage;
+  });
 };
 
 const loadBeveragesOnEmpIdDateAndBeverages = function(
@@ -110,7 +82,7 @@ const loadBeveragesOnEmpIdDateAndBeverages = function(
     userEnteredId == undefined &&
     userEnteredBeverage == undefined
   ) {
-    return {};
+    return [];
   }
   return loadBeveragesOnBeverage(
     loadBeveragesOnDate(
@@ -119,14 +91,6 @@ const loadBeveragesOnEmpIdDateAndBeverages = function(
     ),
     userEnteredBeverage
   );
-};
-
-const combineBeverages = function(beveragesData) {
-  const employees = Object.keys(beveragesData);
-  return employees.reduce(function(combinedBeverages, emp) {
-    combinedBeverages = combinedBeverages.concat(beveragesData[emp]);
-    return combinedBeverages;
-  }, []);
 };
 
 const areKeysValidForSave = function(pairedUserEnteredValues) {
@@ -166,5 +130,4 @@ exports.getAsMessage = getAsMessage;
 exports.areArgsNotValid = areArgsNotValid;
 exports.getUsage = getUsage;
 exports.loadBeveragesOnEmpIdDateAndBeverages = loadBeveragesOnEmpIdDateAndBeverages;
-exports.combineBeverages = combineBeverages;
 exports.getTotal = getTotal;
