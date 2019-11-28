@@ -1,17 +1,19 @@
 const getBeveragesData = require("./utils.js").getBeveragesData;
-const loadBeveragesOnEmpIdAndDate = require("./utils.js")
-  .loadBeveragesOnEmpIdAndDate;
+const loadBeveragesOnEmpIdDateAndBeverages = require("./utils.js")
+  .loadBeveragesOnEmpIdDateAndBeverages;
 const combineBeverages = require("./utils.js").combineBeverages;
 const getTotal = require("./utils.js").getTotal;
 
 const query = function(read, path, isExists, pairedOptions) {
   const userEnteredEmpId = pairedOptions["--empId"];
   const userEnteredDate = pairedOptions["--date"];
+  const userEnteredBeverage = pairedOptions["--beverage"];
   let prevTransactions = getBeveragesData(read, path, isExists);
-  const beveragesOnEmpIdAndDate = loadBeveragesOnEmpIdAndDate(
+  const beveragesOnEmpIdAndDate = loadBeveragesOnEmpIdDateAndBeverages(
     prevTransactions,
     userEnteredEmpId,
-    userEnteredDate
+    userEnteredDate,
+    userEnteredBeverage
   );
   let combinedBeverages = [];
   let totalBeverages = 0;

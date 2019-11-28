@@ -3,8 +3,8 @@ const pairUserEnteredValues = require("../src/utils.js").pairUserEnteredValues;
 const getBeveragesData = require("../src/utils.js").getBeveragesData;
 const getAsMessage = require("../src/utils.js").getAsMessage;
 const areArgsNotValid = require("../src/utils.js").areArgsNotValid;
-const loadBeveragesOnEmpIdAndDate = require("../src/utils.js")
-  .loadBeveragesOnEmpIdAndDate;
+const loadBeveragesOnEmpIdDateAndBeverages = require("../src/utils.js")
+  .loadBeveragesOnEmpIdDateAndBeverages;
 const combineBeverages = require("../src/utils.js").combineBeverages;
 const getTotal = require("../src/utils.js").getTotal;
 
@@ -137,7 +137,7 @@ describe("areArgsNotValid", function() {
   });
 });
 
-describe("loadBeveragesOnEmpIdAndDate", function() {
+describe("loadBeveragesOnEmpIdDateAndBeverage", function() {
   it("should get beverages of emp when only empId is given", function() {
     const beveragesData = JSON.parse(
       '{"25323":[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"}]}'
@@ -155,7 +155,7 @@ describe("loadBeveragesOnEmpIdAndDate", function() {
       ]
     };
     assert.deepStrictEqual(
-      loadBeveragesOnEmpIdAndDate(
+      loadBeveragesOnEmpIdDateAndBeverages(
         beveragesData,
         userEnteredId,
         userEnteredDate
@@ -180,7 +180,7 @@ describe("loadBeveragesOnEmpIdAndDate", function() {
       ]
     };
     assert.deepStrictEqual(
-      loadBeveragesOnEmpIdAndDate(
+      loadBeveragesOnEmpIdDateAndBeverages(
         beveragesData,
         userEnteredId,
         userEnteredDate
@@ -205,10 +205,64 @@ describe("loadBeveragesOnEmpIdAndDate", function() {
       ]
     };
     assert.deepStrictEqual(
-      loadBeveragesOnEmpIdAndDate(
+      loadBeveragesOnEmpIdDateAndBeverages(
         beveragesData,
         userEnteredId,
         userEnteredDate
+      ),
+      expected
+    );
+  });
+  it("should get beverages of emps on given beverage", function() {
+    const beveragesData = JSON.parse(
+      '{"25323":[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"}],"25555":[{"empId":"25555","beverage":"pineapple","qty":"1","date":"2019-11-25T18:27:52.164Z"}]}'
+    );
+    const userEnteredId = undefined;
+    const userEnteredDate = undefined;
+    const userEnteredBeverage = "pineapple";
+    const expected = {
+      "25555": [
+        {
+          empId: "25555",
+          beverage: "pineapple",
+          qty: "1",
+          date: "2019-11-25T18:27:52.164Z"
+        }
+      ]
+    };
+    assert.deepStrictEqual(
+      loadBeveragesOnEmpIdDateAndBeverages(
+        beveragesData,
+        userEnteredId,
+        userEnteredDate,
+        userEnteredBeverage
+      ),
+      expected
+    );
+  });
+  it("should give beverages of given beverage, emp and date", function() {
+    const beveragesData = JSON.parse(
+      '{"25323":[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"},{"empId":"25323","beverage":"pineapple","qty":"1","date":"2019-11-27T18:27:52.164Z"}],"25555":[{"empId":"25555","beverage":"pineapple","qty":"1","date":"2019-11-25T18:27:52.164Z"}]}'
+    );
+    const userEnteredId = "25323";
+    const userEnteredDate = "2019-11-27";
+    const userEnteredBeverage = "pineapple";
+    const expected = {
+      "25323": [
+        {
+          empId: "25323",
+          beverage: "pineapple",
+          qty: "1",
+          date: "2019-11-27T18:27:52.164Z"
+        }
+      ]
+    };
+    assert.deepStrictEqual(
+      loadBeveragesOnEmpIdDateAndBeverages(
+        beveragesData,
+        userEnteredId,
+        userEnteredDate,
+        userEnteredBeverage
       ),
       expected
     );
@@ -218,7 +272,7 @@ describe("loadBeveragesOnEmpIdAndDate", function() {
       '{"25323":[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"}]}'
     );
     assert(
-      loadBeveragesOnEmpIdAndDate(beveragesData, undefined, undefined),
+      loadBeveragesOnEmpIdDateAndBeverages(beveragesData, undefined, undefined),
       {}
     );
   });

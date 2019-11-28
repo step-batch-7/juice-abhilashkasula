@@ -60,7 +60,7 @@ describe("processTransaction", function() {
       expected
     );
   });
-  it("should return a string consists of employee beverages and total beverages for --query", function() {
+  it("should return a string consists of employee beverages and total beverages for --query on emp", function() {
     const read = function(data) {
       return data;
     };
@@ -81,7 +81,78 @@ describe("processTransaction", function() {
       expected
     );
   });
-  it("should return a string consists of employee beverages and total beverages for --query when there are more than one beverages", function() {
+  it("should return a string consists of employee beverages and total beverages for --query on date", function() {
+    const read = function(data) {
+      return data;
+    };
+    const isExists = function(data) {
+      return true;
+    };
+    const write = function(data) {};
+    const getDate = function() {
+      return "2019-11-24T07:43:28.618Z";
+    };
+    const data =
+      '{"11111":[{"empId":11111,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"}]}';
+    const userArgs = ["--query", "--date", "2019-11-23"];
+    const expected =
+      "Employee ID,Beverage,Quantity,Date\n11111,orange,1,2019-11-23T04:06:35.711Z\nTotal:1";
+    assert.deepStrictEqual(
+      processTransaction(read, data, userArgs, write, isExists, getDate),
+      expected
+    );
+  });
+  it("should return a string consists of employee beverages and total beverages for --query on beverage", function() {
+    const read = function(data) {
+      return data;
+    };
+    const isExists = function(data) {
+      return true;
+    };
+    const write = function(data) {};
+    const getDate = function() {
+      return "2019-11-24T07:43:28.618Z";
+    };
+    const data =
+      '{"11111":[{"empId":11111,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"}]}';
+    const userArgs = ["--query", "--beverage", "orange"];
+    const expected =
+      "Employee ID,Beverage,Quantity,Date\n11111,orange,1,2019-11-23T04:06:35.711Z\nTotal:1";
+    assert.deepStrictEqual(
+      processTransaction(read, data, userArgs, write, isExists, getDate),
+      expected
+    );
+  });
+  it("should return a string consists of employee beverages and total beverages for --query on all three filters", function() {
+    const read = function(data) {
+      return data;
+    };
+    const isExists = function(data) {
+      return true;
+    };
+    const write = function(data) {};
+    const getDate = function() {
+      return "2019-11-24T07:43:28.618Z";
+    };
+    const data =
+      '{"11111":[{"empId":11111,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"},{"empId":11111,"beverage":"pineapple","qty":1,"date":"2019-11-25T04:06:35.711Z"},{"empId":11111,"beverage":"water melon","qty":1,"date":"2019-11-27T04:06:35.711Z"}]}';
+    const userArgs = [
+      "--query",
+      "--beverage",
+      "pineapple",
+      "--empId",
+      "11111",
+      "--date",
+      "2019-11-25"
+    ];
+    const expected =
+      "Employee ID,Beverage,Quantity,Date\n11111,pineapple,1,2019-11-25T04:06:35.711Z\nTotal:1";
+    assert.deepStrictEqual(
+      processTransaction(read, data, userArgs, write, isExists, getDate),
+      expected
+    );
+  });
+  it("should return a string consists of employee beverages and total beverages for --query on emp when there are more than one beverages", function() {
     const read = function(data) {
       return data;
     };

@@ -47,10 +47,10 @@ describe("query", function() {
   it("should return false when employee's details and date is not available ", function() {
     let pairedOptions = { "--empId": 34543 };
     let data =
-      '{"25323":[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"}],"25555":[{"empId":"25555","beverage":"orange","qty":"2","date":"2019-11-25T18:27:52.700Z"}]}';
+      '{"25323":[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"}],"25323":[{"empId":"25323","beverage":"orange","qty":"2","date":"2019-11-25T18:27:52.700Z"}]}';
     let expected = {
       beveragesData: JSON.parse(
-        '{"25323":[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"}],"25555":[{"empId":"25555","beverage":"orange","qty":"2","date":"2019-11-25T18:27:52.700Z"}]}'
+        '{"25323":[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"}],"25323":[{"empId":"25323","beverage":"orange","qty":"2","date":"2019-11-25T18:27:52.700Z"}]}'
       ),
       transactionDetails: [
         "Employee ID,Beverage,Quantity,Date\n",
@@ -172,6 +172,60 @@ describe("query", function() {
         "Employee ID,Beverage,Quantity,Date\n",
         false,
         "\nTotal:" + 0
+      ]
+    };
+    assert.deepStrictEqual(
+      query(read, data, isExists, pairedOptions),
+      expected
+    );
+  });
+  it("should return beverages when beverage is given but not date and emp", function() {
+    const pairedOptions = { "--beverage": "orange" };
+    const data =
+      '{"25323":[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"}]}';
+    const expected = {
+      beveragesData: JSON.parse(
+        '{"25323":[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"}]}'
+      ),
+      transactionDetails: [
+        "Employee ID,Beverage,Quantity,Date\n",
+        [
+          {
+            empId: "25323",
+            beverage: "orange",
+            qty: "1",
+            date: "2019-11-25T18:27:52.164Z"
+          }
+        ],
+        "\nTotal:" + 1
+      ]
+    };
+    assert.deepStrictEqual(
+      query(read, data, isExists, pairedOptions),
+      expected
+    );
+  });
+  it("should return beverages when all beverage, emp, date is given", function() {
+    const pairedOptions = {
+      "--beverage": "pineapple",
+      "--empId": "25555",
+      "--date": "2019-11-27"
+    };
+    const data =
+      '{"25555":[{"empId":"25555","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"},{"empId":"25555","beverage":"pineapple","qty":"1","date":"2019-11-27T18:27:52.164Z"},{"empId":"25555","beverage":"water melon","qty":"1","date":"2019-11-25T18:27:52.164Z"}]}';
+    const expected = {
+      beveragesData: JSON.parse(data),
+      transactionDetails: [
+        "Employee ID,Beverage,Quantity,Date\n",
+        [
+          {
+            empId: "25555",
+            beverage: "pineapple",
+            qty: "1",
+            date: "2019-11-27T18:27:52.164Z"
+          }
+        ],
+        "\nTotal:" + 1
       ]
     };
     assert.deepStrictEqual(

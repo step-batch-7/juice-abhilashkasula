@@ -76,17 +76,48 @@ const loadBeveragesOnDate = function(beveragesData, userEnteredDate) {
   }, {});
 };
 
-const loadBeveragesOnEmpIdAndDate = function(
+const loadBeveragesOnBeverage = function(beveragesData, userEnteredBeverage) {
+  let employees = Object.keys(beveragesData);
+  if (userEnteredBeverage == undefined) {
+    return beveragesData;
+  }
+  return employees.reduce(function(addedEmployees, employee) {
+    let beveragesOnEnteredBeverage = beveragesData[employee].reduce(function(
+      addedBeverages,
+      beverages
+    ) {
+      if (beverages["beverage"].includes(userEnteredBeverage)) {
+        addedBeverages.push(beverages);
+      }
+      return addedBeverages;
+    },
+    []);
+    if (beveragesOnEnteredBeverage != 0) {
+      addedEmployees[employee] = beveragesOnEnteredBeverage;
+    }
+    return addedEmployees;
+  }, {});
+};
+
+const loadBeveragesOnEmpIdDateAndBeverages = function(
   beveragesData,
   userEnteredId,
-  userEnteredDate
+  userEnteredDate,
+  userEnteredBeverage
 ) {
-  if (userEnteredDate == undefined && userEnteredId == undefined) {
+  if (
+    userEnteredDate == undefined &&
+    userEnteredId == undefined &&
+    userEnteredBeverage == undefined
+  ) {
     return {};
   }
-  return loadBeveragesOnDate(
-    loadBeveragesOnId(beveragesData, userEnteredId),
-    userEnteredDate
+  return loadBeveragesOnBeverage(
+    loadBeveragesOnDate(
+      loadBeveragesOnId(beveragesData, userEnteredId),
+      userEnteredDate
+    ),
+    userEnteredBeverage
   );
 };
 
@@ -107,7 +138,7 @@ const areKeysValidForSave = function(pairedUserEnteredValues) {
 
 const areKeysValidForQuery = function(pairedUserEnteredValues) {
   const userKeys = Object.keys(pairedUserEnteredValues);
-  return ["--empId", "--date"].some(function(key) {
+  return ["--empId", "--date", "--beverage"].some(function(key) {
     return userKeys.includes(key);
   });
 };
@@ -134,6 +165,6 @@ exports.writeBeverages = writeBeverages;
 exports.getAsMessage = getAsMessage;
 exports.areArgsNotValid = areArgsNotValid;
 exports.getUsage = getUsage;
-exports.loadBeveragesOnEmpIdAndDate = loadBeveragesOnEmpIdAndDate;
+exports.loadBeveragesOnEmpIdDateAndBeverages = loadBeveragesOnEmpIdDateAndBeverages;
 exports.combineBeverages = combineBeverages;
 exports.getTotal = getTotal;
