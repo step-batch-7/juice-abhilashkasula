@@ -1,30 +1,29 @@
-const getBeveragesData = require("./utils.js").getBeveragesData;
-const loadBeveragesOnEmpIdDateAndBeverages = require("./utils.js")
-  .loadBeveragesOnEmpIdDateAndBeverages;
-const getTotal = require("./utils.js").getTotal;
+const utils = require(`./utils.js`);
+const getBeveragesOnEmpIdDateAndBeverages =
+  utils.getBeveragesOnEmpIdDateAndBeverages;
+const getTotal = utils.getTotal;
 
-const query = function(read, path, isExists, pairedOptions) {
-  const userEnteredEmpId = pairedOptions["--empId"];
-  const userEnteredDate = pairedOptions["--date"];
-  const userEnteredBeverage = pairedOptions["--beverage"];
-  let prevTransactions = getBeveragesData(read, path, isExists);
-  let beveragesOnEmpIdAndDate = loadBeveragesOnEmpIdDateAndBeverages(
-    prevTransactions,
-    userEnteredEmpId,
-    userEnteredDate,
-    userEnteredBeverage
-  );
-  if (beveragesOnEmpIdAndDate.length == 0) {
-    beveragesOnEmpIdAndDate = false;
-  }
+const generateQueryMessage = function(transactions, transactionMadeNow) {
   return {
-    beveragesData: prevTransactions,
+    beveragesData: transactions,
     transactionDetails: [
-      "Employee ID,Beverage,Quantity,Date\n",
-      beveragesOnEmpIdAndDate,
-      "\nTotal:" + getTotal(beveragesOnEmpIdAndDate)
+      `Employee ID,Beverage,Quantity,Date`,
+      transactionMadeNow,
+      `\nTotal:${getTotal(transactionMadeNow)} Juices`
     ]
   };
 };
 
+const query = function(transactions, pairedOptions) {
+  const userEnteredEmpId = pairedOptions[`--empId`];
+  const userEnteredDate = pairedOptions[`--date`];
+  const userEnteredBeverage = pairedOptions[`--beverage`];
+  let transactionMadeNow = getBeveragesOnEmpIdDateAndBeverages(
+    transactions,
+    userEnteredEmpId,
+    userEnteredDate,
+    userEnteredBeverage
+  );
+  return generateQueryMessage(transactions, transactionMadeNow);
+};
 exports.query = query;

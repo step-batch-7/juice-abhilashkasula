@@ -1,21 +1,17 @@
-const pairUserEnteredValues = require("./utils.js").pairUserEnteredValues;
-const saveBeverageEntry = require("./saveBeveragesEntry").saveBeverageEntry;
+const utils = require("./utils.js");
+const pairUserEnteredValues = utils.pairUserEnteredValues;
+const updateBeverageEntry = require("./updateBeveragesEntry.js")
+  .updateBeverageEntry;
 const query = require("./query.js").query;
-const writeBeverages = require("./utils.js").writeBeverages;
-const getAsMessage = require("./utils.js").getAsMessage;
-const areArgsNotValid = require("./utils.js").areArgsNotValid;
-const getUsage = require("./utils.js").getUsage;
+const writeBeverages = utils.writeBeverages;
+const getAsMessage = utils.getAsMessage;
+const areArgsNotValid = utils.areArgsNotValid;
+const getUsage = utils.getUsage;
+const loadTransactions = utils.loadTransactions;
 
-const processTransaction = function(
-  read,
-  path,
-  userArgs,
-  write,
-  isExists,
-  getDate
-) {
+const processTransaction = function(fileSystem, path, userArgs, getDate) {
   const operations = {
-    "--save": [saveBeverageEntry, "save"],
+    "--save": [updateBeverageEntry, "save"],
     "--query": [query, "query"]
   };
   const transaction = operations[userArgs[0]];
@@ -26,22 +22,22 @@ const processTransaction = function(
   ) {
     return getUsage();
   }
-  const beveragesDataAndTransactionDetails = transaction[0](
-    read,
+  const prevTransactions = loadTransactions(
+    fileSystem.read,
     path,
-    isExists,
+    fileSystem.isExists
+  );
+  const beveragesDataAndTransactionDetails = transaction[0](
+    prevTransactions,
     pairedUserEnteredValues,
     getDate
   );
-  const beveragesDataToBeSaved =
-    beveragesDataAndTransactionDetails["beveragesData"];
-  const transactionDetails =
-    beveragesDataAndTransactionDetails["transactionDetails"];
-  if (!transactionDetails[1]) {
-    return "no previous records found for this employee";
-  }
-  writeBeverages(beveragesDataToBeSaved, path, write);
-  return getAsMessage(transactionDetails);
+  const transactionsToBeSaved =
+    beveragesDataAndTransactionDetails.beveragesData;
+  const transactionsMadeNow =
+    beveragesDataAndTransactionDetails.transactionDetails;
+  writeBeverages(transactionsToBeSaved, path, fileSystem.write);
+  return getAsMessage(transactionsMadeNow);
 };
 
 exports.processTransaction = processTransaction;

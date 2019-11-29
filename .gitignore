@@ -1,3 +1,6 @@
 node_modules/
 .nyc_output
 coverage
+appTests
+runAppTests.sh
+.DS_Store

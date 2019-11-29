@@ -1,9 +1,6 @@
 const fs = require("fs");
 
 const getTotal = function(beveragesData) {
-  if (!beveragesData) {
-    return 0;
-  }
   return beveragesData.reduce(function(total, obj) {
     let value = +obj.qty;
     return total + value;
@@ -21,7 +18,7 @@ const pairUserEnteredValues = function(userEnteredValues) {
   }, {});
 };
 
-const getBeveragesData = function(read, path, isExists) {
+const loadTransactions = function(read, path, isExists) {
   let prevTransactions = [];
   if (isExists(path)) {
     prevTransactions = JSON.parse(read(path, "utf8"));
@@ -34,44 +31,46 @@ const writeBeverages = function(beveragesData, path, write) {
   write(path, dataToBeWritten);
 };
 
-const getAsMessage = function(transactionDetails) {
-  const message = transactionDetails[0];
-  let transactionValues = transactionDetails[1].reduce(function(a, obj) {
-    a.push(Object.values(obj));
-    return a;
-  }, []);
-  const remaining = transactionDetails.slice(2);
-  return message + transactionValues.join("\n") + remaining;
+const toRowLine = function(transaction) {
+  const fieldNames = "empId,beverage,qty,date".split(",");
+  const values = fieldNames.map(name => transaction[name]);
+  return values.join(",");
+};
+const getAsMessage = function(transactions) {
+  const header = transactions[0];
+  const footer = transactions.slice(2);
+  const rowLines = transactions[1].map(toRowLine);
+  return [header, ...rowLines].join("\n") + footer;
 };
 
-const loadBeveragesOnId = function(beveragesData, userEnteredEmpId) {
-  if (userEnteredEmpId == undefined) {
-    return beveragesData;
-  }
-  return beveragesData.filter(function(beverageTransaction) {
-    return beverageTransaction["empId"] == userEnteredEmpId;
-  });
+const getBeveragesOnId = function(beveragesData, userEnteredEmpId) {
+  const transactionsOfId =
+    userEnteredEmpId &&
+    beveragesData.filter(function(transaction) {
+      return transaction.empId == userEnteredEmpId;
+    });
+  return transactionsOfId || beveragesData;
 };
 
-const loadBeveragesOnDate = function(beveragesData, userEnteredDate) {
-  if (userEnteredDate == undefined) {
-    return beveragesData;
-  }
-  return beveragesData.filter(function(beverageTransaction) {
-    return beverageTransaction["date"].includes(userEnteredDate);
-  });
+const getBeveragesOnDate = function(beveragesData, userEnteredDate) {
+  const transactionsOnDate =
+    userEnteredDate &&
+    beveragesData.filter(function(beverageTransaction) {
+      return beverageTransaction.date.includes(userEnteredDate);
+    });
+  return transactionsOnDate || beveragesData;
 };
 
-const loadBeveragesOnBeverage = function(beveragesData, userEnteredBeverage) {
-  if (userEnteredBeverage == undefined) {
-    return beveragesData;
-  }
-  return beveragesData.filter(function(beverageTransaction) {
-    return beverageTransaction["beverage"] == userEnteredBeverage;
-  });
+const getBeveragesOnBeverage = function(beveragesData, userEnteredBeverage) {
+  const transactionsByBeverage =
+    userEnteredBeverage &&
+    beveragesData.filter(function(transaction) {
+      return transaction.beverage == userEnteredBeverage;
+    });
+  return transactionsByBeverage || beveragesData;
 };
 
-const loadBeveragesOnEmpIdDateAndBeverages = function(
+const getBeveragesOnEmpIdDateAndBeverages = function(
   beveragesData,
   userEnteredId,
   userEnteredDate,
@@ -84,9 +83,9 @@ const loadBeveragesOnEmpIdDateAndBeverages = function(
   ) {
     return [];
   }
-  return loadBeveragesOnBeverage(
-    loadBeveragesOnDate(
-      loadBeveragesOnId(beveragesData, userEnteredId),
+  return getBeveragesOnBeverage(
+    getBeveragesOnDate(
+      getBeveragesOnId(beveragesData, userEnteredId),
       userEnteredDate
     ),
     userEnteredBeverage
@@ -124,10 +123,10 @@ const getUsage = function() {
 };
 
 exports.pairUserEnteredValues = pairUserEnteredValues;
-exports.getBeveragesData = getBeveragesData;
+exports.loadTransactions = loadTransactions;
 exports.writeBeverages = writeBeverages;
 exports.getAsMessage = getAsMessage;
 exports.areArgsNotValid = areArgsNotValid;
 exports.getUsage = getUsage;
-exports.loadBeveragesOnEmpIdDateAndBeverages = loadBeveragesOnEmpIdDateAndBeverages;
+exports.getBeveragesOnEmpIdDateAndBeverages = getBeveragesOnEmpIdDateAndBeverages;
 exports.getTotal = getTotal;

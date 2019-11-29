@@ -5,11 +5,9 @@ const fs = require("fs");
 const main = function() {
   const userArgs = process.argv.slice(2);
   const transactionDetails = processTransaction(
-    fs.readFileSync,
+    { read: fs.readFileSync, write: fs.writeFileSync, isExists: fs.existsSync },
     "./src/beveragesData.json",
     userArgs,
-    fs.writeFileSync,
-    fs.existsSync,
     function() {
       return new Date().toJSON();
     }

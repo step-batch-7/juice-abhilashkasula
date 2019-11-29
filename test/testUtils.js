@@ -1,10 +1,11 @@
-const assert = require("assert");
+const chai = require("chai");
+const assert = chai.assert;
 const pairUserEnteredValues = require("../src/utils.js").pairUserEnteredValues;
-const getBeveragesData = require("../src/utils.js").getBeveragesData;
+const loadTransactions = require("../src/utils.js").loadTransactions;
 const getAsMessage = require("../src/utils.js").getAsMessage;
 const areArgsNotValid = require("../src/utils.js").areArgsNotValid;
-const loadBeveragesOnEmpIdDateAndBeverages = require("../src/utils.js")
-  .loadBeveragesOnEmpIdDateAndBeverages;
+const getBeveragesOnEmpIdDateAndBeverages = require("../src/utils.js")
+  .getBeveragesOnEmpIdDateAndBeverages;
 const getTotal = require("../src/utils.js").getTotal;
 
 describe("pairUserEnteredValues", function() {
@@ -49,14 +50,14 @@ describe("getBeveragesData", function() {
         date: "2019-11-25T18:27:52.164Z"
       }
     ];
-    assert.deepStrictEqual(getBeveragesData(read, data, isExists), expected);
+    assert.deepStrictEqual(loadTransactions(read, data, isExists), expected);
   });
 });
 
 describe("getAsMessage", function() {
   it("should return a string for transaction details for save command", function() {
     const transactionDetails = [
-      "Transaction Recorded:\nEmployee ID,Beverage,Quantity,date\n",
+      "Transaction Recorded:\nEmployee ID,Beverage,Quantity,date",
       [
         {
           empId: "25323",
@@ -72,7 +73,7 @@ describe("getAsMessage", function() {
   });
   it("should return a string for transaction details for query command", function() {
     const transactionDetails = [
-      "Employee ID,Beverage,Quantity,date\n",
+      "Employee ID,Beverage,Quantity,date",
       [
         {
           empId: "25323",
@@ -81,10 +82,10 @@ describe("getAsMessage", function() {
           date: "2019-11-25T18:27:52.164Z"
         }
       ],
-      "\nTotal:1"
+      "\nTotal:1 Juices"
     ];
     const expected =
-      "Employee ID,Beverage,Quantity,date\n25323,orange,1,2019-11-25T18:27:52.164Z\nTotal:1";
+      "Employee ID,Beverage,Quantity,date\n25323,orange,1,2019-11-25T18:27:52.164Z\nTotal:1 Juices";
     assert.equal(getAsMessage(transactionDetails), expected);
   });
 });
@@ -150,7 +151,7 @@ describe("loadBeveragesOnEmpIdDateAndBeverage", function() {
       }
     ];
     assert.deepStrictEqual(
-      loadBeveragesOnEmpIdDateAndBeverages(
+      getBeveragesOnEmpIdDateAndBeverages(
         beveragesData,
         userEnteredId,
         userEnteredDate
@@ -173,7 +174,7 @@ describe("loadBeveragesOnEmpIdDateAndBeverage", function() {
       }
     ];
     assert.deepStrictEqual(
-      loadBeveragesOnEmpIdDateAndBeverages(
+      getBeveragesOnEmpIdDateAndBeverages(
         beveragesData,
         userEnteredId,
         userEnteredDate
@@ -196,7 +197,7 @@ describe("loadBeveragesOnEmpIdDateAndBeverage", function() {
       }
     ];
     assert.deepStrictEqual(
-      loadBeveragesOnEmpIdDateAndBeverages(
+      getBeveragesOnEmpIdDateAndBeverages(
         beveragesData,
         userEnteredId,
         userEnteredDate
@@ -220,7 +221,7 @@ describe("loadBeveragesOnEmpIdDateAndBeverage", function() {
       }
     ];
     assert.deepStrictEqual(
-      loadBeveragesOnEmpIdDateAndBeverages(
+      getBeveragesOnEmpIdDateAndBeverages(
         beveragesData,
         userEnteredId,
         userEnteredDate,
@@ -245,7 +246,7 @@ describe("loadBeveragesOnEmpIdDateAndBeverage", function() {
       }
     ];
     assert.deepStrictEqual(
-      loadBeveragesOnEmpIdDateAndBeverages(
+      getBeveragesOnEmpIdDateAndBeverages(
         beveragesData,
         userEnteredId,
         userEnteredDate,
@@ -258,12 +259,12 @@ describe("loadBeveragesOnEmpIdDateAndBeverage", function() {
     const beveragesData = JSON.parse(
       '[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"}]'
     );
-    assert(loadBeveragesOnEmpIdDateAndBeverages(beveragesData), {});
+    assert(getBeveragesOnEmpIdDateAndBeverages(beveragesData), {});
   });
 });
 
 describe("getTotal", function() {
-  it("should get Total of the beverages", function() {
+  it("should get Total of the queried transactions.", function() {
     const beveragesData = JSON.parse(
       '[{"empId":"25323","beverage":"orange","qty":"2","date":"2019-11-25T18:27:52.164Z"},{"empId":"25555","beverage":"orange","qty":"5","date":"2019-11-25T18:27:52.164Z"}]'
     );
