@@ -19,11 +19,15 @@ const pairUserEnteredValues = function(userEnteredValues) {
 };
 
 const loadTransactions = function(read, path, isExists) {
-  let prevTransactions = [];
+  let transactions = [];
   if (isExists(path)) {
-    prevTransactions = JSON.parse(read(path, "utf8"));
+    transactions = JSON.parse(read(path, "utf8"));
+    transactions = transactions.map(transaction => {
+      transaction["date"] = new Date(transaction.date);
+      return transaction;
+    });
   }
-  return prevTransactions;
+  return transactions;
 };
 
 const writeBeverages = function(beveragesData, path, write) {
@@ -33,7 +37,12 @@ const writeBeverages = function(beveragesData, path, write) {
 
 const toRowLine = function(transaction) {
   const fieldNames = "empId,beverage,qty,date".split(",");
-  const values = fieldNames.map(name => transaction[name]);
+  const values = fieldNames.map(name => {
+    if (name == "date") {
+      return transaction[name].toJSON();
+    }
+    return transaction[name];
+  });
   return values.join(",");
 };
 const getAsMessage = function(transactions) {
@@ -56,7 +65,7 @@ const getBeveragesOnDate = function(beveragesData, userEnteredDate) {
   const transactionsOnDate =
     userEnteredDate &&
     beveragesData.filter(function(beverageTransaction) {
-      return beverageTransaction.date.includes(userEnteredDate);
+      return beverageTransaction.date.toJSON().includes(userEnteredDate);
     });
   return transactionsOnDate || beveragesData;
 };

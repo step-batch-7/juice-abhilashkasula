@@ -1,6 +1,7 @@
-node_modules/
-.nyc_output
-coverage
-appTests
-runAppTests.sh
 .DS_Store
+.nyc_output
+appTests
+coverage
+data
+node_modules
+runAppTests.sh

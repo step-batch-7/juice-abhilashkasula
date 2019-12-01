@@ -9,7 +9,7 @@ describe("processTransaction", function() {
     };
     const write = function(data) {};
     const getDate = function() {
-      return "2019-11-24T07:43:28.618Z";
+      return new Date("2019-11-24T07:43:28.618Z");
     };
     const isExists = function(data) {
       return true;
@@ -41,7 +41,7 @@ describe("processTransaction", function() {
     };
     const write = function(data) {};
     const getDate = function() {
-      return "2019-11-24T07:43:28.618Z";
+      return new Date("2019-11-24T07:43:28.618Z");
     };
     const fileSystem = { read: read, write: write, isExists: isExists };
     const data =
@@ -93,7 +93,7 @@ describe("processTransaction", function() {
     };
     const write = function(data) {};
     const getDate = function() {
-      return "2019-11-24T07:43:28.618Z";
+      return new Date("2019-11-24T07:43:28.618Z");
     };
     const fileSystem = { read: read, write: write, isExists: isExists };
     const data =

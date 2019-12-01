@@ -10,7 +10,7 @@ describe("query", function() {
         empId: "25323",
         beverage: "orange",
         qty: "1",
-        date: "2019-11-25T18:27:52.164Z"
+        date: new Date("2019-11-25T18:27:52.164Z")
       }
     ];
     let expected = {
@@ -22,7 +22,7 @@ describe("query", function() {
             empId: "25323",
             beverage: "orange",
             qty: "1",
-            date: "2019-11-25T18:27:52.164Z"
+            date: new Date("2019-11-25T18:27:52.164Z")
           }
         ],
         `\nTotal:1 Juices`
@@ -37,13 +37,13 @@ describe("query", function() {
         empId: "25323",
         beverage: "orange",
         qty: "1",
-        date: "2019-11-25T18:27:52.164Z"
+        date: new Date("2019-11-25T18:27:52.164Z")
       },
       {
         empId: "25323",
         beverage: "orange",
         qty: "2",
-        date: "2019-11-25T18:27:52.700Z"
+        date: new Date("2019-11-25T18:27:52.700Z")
       }
     ];
     let expected = {
@@ -63,13 +63,13 @@ describe("query", function() {
         empId: "25323",
         beverage: "orange",
         qty: "1",
-        date: "2019-11-26T18:27:52.164Z"
+        date: new Date("2019-11-26T18:27:52.164Z")
       },
       {
         empId: "25555",
         beverage: "orange",
         qty: "2",
-        date: "2019-11-25T18:27:52.700Z"
+        date: new Date("2019-11-25T18:27:52.700Z")
       }
     ];
     let expected = {
@@ -81,7 +81,7 @@ describe("query", function() {
             empId: "25323",
             beverage: "orange",
             qty: "1",
-            date: "2019-11-26T18:27:52.164Z"
+            date: new Date("2019-11-26T18:27:52.164Z")
           }
         ],
         "\nTotal:1 Juices"
@@ -96,13 +96,13 @@ describe("query", function() {
         empId: "25323",
         beverage: "orange",
         qty: "1",
-        date: "2019-11-26T18:27:52.164Z"
+        date: new Date("2019-11-26T18:27:52.164Z")
       },
       {
         empId: "25555",
         beverage: "orange",
         qty: "2",
-        date: "2019-11-25T18:27:52.700Z"
+        date: new Date("2019-11-25T18:27:52.700Z")
       }
     ];
     const expected = {
@@ -114,7 +114,7 @@ describe("query", function() {
             empId: "25555",
             beverage: "orange",
             qty: "2",
-            date: "2019-11-25T18:27:52.700Z"
+            date: new Date("2019-11-25T18:27:52.700Z")
           }
         ],
         "\nTotal:2 Juices"
@@ -129,19 +129,19 @@ describe("query", function() {
         empId: "25323",
         beverage: "orange",
         qty: "1",
-        date: "2019-11-26T18:27:52.164Z"
+        date: new Date("2019-11-26T18:27:52.164Z")
       },
       {
         empId: "25555",
         beverage: "orange",
         qty: "2",
-        date: "2019-11-25T18:27:52.700Z"
+        date: new Date("2019-11-25T18:27:52.700Z")
       },
       {
         empId: "25555",
         beverage: "pineapple",
         qty: "5",
-        date: "2019-11-27T18:27:52.700Z"
+        date: new Date("2019-11-27T18:27:52.700Z")
       }
     ];
     const expected = {
@@ -153,7 +153,7 @@ describe("query", function() {
             empId: "25555",
             beverage: "pineapple",
             qty: "5",
-            date: "2019-11-27T18:27:52.700Z"
+            date: new Date("2019-11-27T18:27:52.700Z")
           }
         ],
         "\nTotal:5 Juices"
@@ -168,7 +168,7 @@ describe("query", function() {
         empId: "25323",
         beverage: "orange",
         qty: "1",
-        date: "2019-11-25T18:27:52.164Z"
+        date: new Date("2019-11-25T18:27:52.164Z")
       }
     ];
     const expected = {
@@ -188,7 +188,7 @@ describe("query", function() {
         empId: "25323",
         beverage: "orange",
         qty: "1",
-        date: "2019-11-25T18:27:52.164Z"
+        date: new Date("2019-11-25T18:27:52.164Z")
       }
     ];
     const expected = {
@@ -208,7 +208,7 @@ describe("query", function() {
         empId: "25323",
         beverage: "orange",
         qty: "1",
-        date: "2019-11-25T18:27:52.164Z"
+        date: new Date("2019-11-25T18:27:52.164Z")
       }
     ];
     const expected = {
@@ -220,7 +220,7 @@ describe("query", function() {
             empId: "25323",
             beverage: "orange",
             qty: "1",
-            date: "2019-11-25T18:27:52.164Z"
+            date: new Date("2019-11-25T18:27:52.164Z")
           }
         ],
         "\nTotal:1 Juices"
@@ -239,19 +239,19 @@ describe("query", function() {
         empId: "25555",
         beverage: "orange",
         qty: "1",
-        date: "2019-11-25T18:27:52.164Z"
+        date: new Date("2019-11-25T18:27:52.164Z")
       },
       {
         empId: "25555",
         beverage: "pineapple",
         qty: "1",
-        date: "2019-11-27T18:27:52.164Z"
+        date: new Date("2019-11-27T18:27:52.164Z")
       },
       {
         empId: "25555",
         beverage: "water melon",
         qty: "1",
-        date: "2019-11-25T18:27:52.164Z"
+        date: new Date("2019-11-25T18:27:52.164Z")
       }
     ];
     const expected = {
@@ -263,7 +263,7 @@ describe("query", function() {
             empId: "25555",
             beverage: "pineapple",
             qty: "1",
-            date: "2019-11-27T18:27:52.164Z"
+            date: new Date("2019-11-27T18:27:52.164Z")
           }
         ],
         "\nTotal:1 Juices"

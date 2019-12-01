@@ -36,7 +36,8 @@ const processTransaction = function(fileSystem, path, userArgs, getDate) {
     beveragesDataAndTransactionDetails.beveragesData;
   const transactionsMadeNow =
     beveragesDataAndTransactionDetails.transactionDetails;
-  writeBeverages(transactionsToBeSaved, path, fileSystem.write);
+  transactionsToBeSaved.length &&
+    writeBeverages(transactionsToBeSaved, path, fileSystem.write);
   return getAsMessage(transactionsMadeNow);
 };
 

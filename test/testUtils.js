@@ -32,7 +32,7 @@ describe("pairUserEnteredValues", function() {
   });
 });
 
-describe("getBeveragesData", function() {
+describe("loadTransactions", function() {
   it("should read the given string as object", function() {
     const read = function(path) {
       return path;
@@ -47,7 +47,7 @@ describe("getBeveragesData", function() {
         empId: "25323",
         beverage: "orange",
         qty: "1",
-        date: "2019-11-25T18:27:52.164Z"
+        date: new Date("2019-11-25T18:27:52.164Z")
       }
     ];
     assert.deepStrictEqual(loadTransactions(read, data, isExists), expected);
@@ -63,7 +63,7 @@ describe("getAsMessage", function() {
           empId: "25323",
           beverage: "orange",
           qty: 1,
-          date: "2019-11-25T18:27:52.164Z"
+          date: new Date("2019-11-25T18:27:52.164Z")
         }
       ]
     ];
@@ -79,7 +79,7 @@ describe("getAsMessage", function() {
           empId: "25323",
           beverage: "orange",
           qty: 1,
-          date: "2019-11-25T18:27:52.164Z"
+          date: new Date("2019-11-25T18:27:52.164Z")
         }
       ],
       "\nTotal:1 Juices"
@@ -137,9 +137,14 @@ describe("areArgsNotValid", function() {
 
 describe("loadBeveragesOnEmpIdDateAndBeverage", function() {
   it("should get beverages of emp when only empId is given", function() {
-    const beveragesData = JSON.parse(
-      '[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"}]'
-    );
+    const beveragesData = [
+      {
+        empId: "25323",
+        beverage: "orange",
+        qty: "1",
+        date: new Date("2019-11-25T18:27:52.164Z")
+      }
+    ];
     const userEnteredId = "25323";
     const userEnteredDate = undefined;
     const expected = [
@@ -147,7 +152,7 @@ describe("loadBeveragesOnEmpIdDateAndBeverage", function() {
         empId: "25323",
         beverage: "orange",
         qty: "1",
-        date: "2019-11-25T18:27:52.164Z"
+        date: new Date("2019-11-25T18:27:52.164Z")
       }
     ];
     assert.deepStrictEqual(
@@ -160,9 +165,14 @@ describe("loadBeveragesOnEmpIdDateAndBeverage", function() {
     );
   });
   it("should get beverages on date when only date is given", function() {
-    const beveragesData = JSON.parse(
-      '[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"}]'
-    );
+    const beveragesData = [
+      {
+        empId: "25323",
+        beverage: "orange",
+        qty: "1",
+        date: new Date("2019-11-25T18:27:52.164Z")
+      }
+    ];
     const userEnteredId = undefined;
     const userEnteredDate = "2019-11-25";
     const expected = [
@@ -170,7 +180,7 @@ describe("loadBeveragesOnEmpIdDateAndBeverage", function() {
         empId: "25323",
         beverage: "orange",
         qty: "1",
-        date: "2019-11-25T18:27:52.164Z"
+        date: new Date("2019-11-25T18:27:52.164Z")
       }
     ];
     assert.deepStrictEqual(
@@ -183,9 +193,20 @@ describe("loadBeveragesOnEmpIdDateAndBeverage", function() {
     );
   });
   it("should get beverages of emp on date when emp and date is given", function() {
-    const beveragesData = JSON.parse(
-      '[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"},{"empId":"25555","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"}]'
-    );
+    const beveragesData = [
+      {
+        empId: "25323",
+        beverage: "orange",
+        qty: "1",
+        date: new Date("2019-11-25T18:27:52.164Z")
+      },
+      {
+        empId: "25555",
+        beverage: "orange",
+        qty: "1",
+        date: new Date("2019-11-25T18:27:52.164Z")
+      }
+    ];
     const userEnteredId = "25555";
     const userEnteredDate = "2019-11-25";
     const expected = [
@@ -193,7 +214,7 @@ describe("loadBeveragesOnEmpIdDateAndBeverage", function() {
         empId: "25555",
         beverage: "orange",
         qty: "1",
-        date: "2019-11-25T18:27:52.164Z"
+        date: new Date("2019-11-25T18:27:52.164Z")
       }
     ];
     assert.deepStrictEqual(
@@ -206,9 +227,20 @@ describe("loadBeveragesOnEmpIdDateAndBeverage", function() {
     );
   });
   it("should get beverages of emps on given beverage", function() {
-    const beveragesData = JSON.parse(
-      '[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"},{"empId":"25555","beverage":"pineapple","qty":"1","date":"2019-11-25T18:27:52.164Z"}]'
-    );
+    const beveragesData = [
+      {
+        empId: "25323",
+        beverage: "orange",
+        qty: "1",
+        date: new Date("2019-11-25T18:27:52.164Z")
+      },
+      {
+        empId: "25555",
+        beverage: "pineapple",
+        qty: "1",
+        date: new Date("2019-11-25T18:27:52.164Z")
+      }
+    ];
     const userEnteredId = undefined;
     const userEnteredDate = undefined;
     const userEnteredBeverage = "pineapple";
@@ -217,7 +249,7 @@ describe("loadBeveragesOnEmpIdDateAndBeverage", function() {
         empId: "25555",
         beverage: "pineapple",
         qty: "1",
-        date: "2019-11-25T18:27:52.164Z"
+        date: new Date("2019-11-25T18:27:52.164Z")
       }
     ];
     assert.deepStrictEqual(
@@ -231,9 +263,26 @@ describe("loadBeveragesOnEmpIdDateAndBeverage", function() {
     );
   });
   it("should give beverages of given beverage, emp and date", function() {
-    const beveragesData = JSON.parse(
-      '[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"},{"empId":"25323","beverage":"pineapple","qty":"1","date":"2019-11-27T18:27:52.164Z"},{"empId":"25555","beverage":"pineapple","qty":"1","date":"2019-11-25T18:27:52.164Z"}]'
-    );
+    const beveragesData = [
+      {
+        empId: "25323",
+        beverage: "orange",
+        qty: "1",
+        date: new Date("2019-11-25T18:27:52.164Z")
+      },
+      {
+        empId: "25323",
+        beverage: "pineapple",
+        qty: "1",
+        date: new Date("2019-11-27T18:27:52.164Z")
+      },
+      {
+        empId: "25555",
+        beverage: "pineapple",
+        qty: "1",
+        date: new Date("2019-11-25T18:27:52.164Z")
+      }
+    ];
     const userEnteredId = "25323";
     const userEnteredDate = "2019-11-27";
     const userEnteredBeverage = "pineapple";
@@ -242,7 +291,7 @@ describe("loadBeveragesOnEmpIdDateAndBeverage", function() {
         empId: "25323",
         beverage: "pineapple",
         qty: "1",
-        date: "2019-11-27T18:27:52.164Z"
+        date: new Date("2019-11-27T18:27:52.164Z")
       }
     ];
     assert.deepStrictEqual(
@@ -256,9 +305,14 @@ describe("loadBeveragesOnEmpIdDateAndBeverage", function() {
     );
   });
   it("shoud give an empty object when both emp and date is not given", function() {
-    const beveragesData = JSON.parse(
-      '[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"}]'
-    );
+    const beveragesData = [
+      {
+        empId: "25323",
+        beverage: "orange",
+        qty: "1",
+        date: new Date("2019-11-25T18:27:52.164Z")
+      }
+    ];
     assert(getBeveragesOnEmpIdDateAndBeverages(beveragesData), {});
   });
 });

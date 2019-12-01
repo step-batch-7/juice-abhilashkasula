@@ -5,7 +5,7 @@ const updateBeverageEntry = require("../src/updateBeveragesEntry.js")
 const fs = require("fs");
 
 const getDate = function() {
-  return "2019-11-24T07:43:28.618Z";
+  return new Date("2019-11-24T07:43:28.618Z");
 };
 
 describe("updateBeverageEntry", function() {
@@ -23,7 +23,7 @@ describe("updateBeverageEntry", function() {
           empId: 11111,
           beverage: "orange",
           qty: 1,
-          date: "2019-11-24T07:43:28.618Z"
+          date: new Date("2019-11-24T07:43:28.618Z")
         }
       ],
       transactionDetails: [
@@ -33,7 +33,7 @@ describe("updateBeverageEntry", function() {
             empId: 11111,
             beverage: "orange",
             qty: 1,
-            date: "2019-11-24T07:43:28.618Z"
+            date: new Date("2019-11-24T07:43:28.618Z")
           }
         ]
       ]
@@ -69,7 +69,7 @@ describe("updateBeverageEntry", function() {
           empId: 25323,
           beverage: "orange",
           qty: 1,
-          date: "2019-11-24T07:43:28.618Z"
+          date: new Date("2019-11-24T07:43:28.618Z")
         }
       ],
       transactionDetails: [
@@ -79,7 +79,7 @@ describe("updateBeverageEntry", function() {
             empId: 25323,
             beverage: "orange",
             qty: 1,
-            date: "2019-11-24T07:43:28.618Z"
+            date: new Date("2019-11-24T07:43:28.618Z")
           }
         ]
       ]
@@ -115,7 +115,7 @@ describe("updateBeverageEntry", function() {
           empId: 25323,
           beverage: "orange",
           qty: 1,
-          date: "2019-11-24T07:43:28.618Z"
+          date: new Date("2019-11-24T07:43:28.618Z")
         }
       ],
       transactionDetails: [
@@ -125,7 +125,7 @@ describe("updateBeverageEntry", function() {
             empId: 25323,
             beverage: "orange",
             qty: 1,
-            date: "2019-11-24T07:43:28.618Z"
+            date: new Date("2019-11-24T07:43:28.618Z")
           }
         ]
       ]
