@@ -38,6 +38,10 @@ describe("loadTransactions", function() {
       return path;
     };
     const isExists = function(path) {
+      assert.deepStrictEqual(
+        path,
+        '[{"empId":"25323","beverage":"orange","qty":"1","date":"2019-11-25T18:27:52.164Z"}]'
+      );
       return true;
     };
     const data =

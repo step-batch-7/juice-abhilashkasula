@@ -1,0 +1,3 @@
+(export NOW="2019-11-28T12:00:00.000Z";export JUICE_TRANSACTIONS_STORE_PATH="badfile.js";node beverage --query --empId 11111)
+Employee ID,Beverage,Quantity,Date
+Total:0 Juices
