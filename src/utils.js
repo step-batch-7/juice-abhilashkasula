@@ -103,28 +103,30 @@ const getBeveragesOnEmpIdDateAndBeverages = function(
 
 const areKeysValidForSave = function(pairedUserEnteredValues) {
   const userKeys = Object.keys(pairedUserEnteredValues);
-  return ["--empId", "--beverage", "--qty"].every(function(key) {
-    return userKeys.includes(key);
-  });
+  const areEnteredKeysFound = userKeys.every(key =>
+    ["--empId", "--qty", "--beverage"].includes(key)
+  );
+  return (
+    areEnteredKeysFound &&
+    ["--empId", "--beverage", "--qty"].every(key => userKeys.includes(key))
+  );
 };
 
 const areKeysValidForQuery = function(pairedUserEnteredValues) {
   const userKeys = Object.keys(pairedUserEnteredValues);
-  return ["--empId", "--date", "--beverage"].some(function(key) {
-    return userKeys.includes(key);
-  });
+  return (
+    userKeys.every(key => ["--empId", "--date", "--beverage"].includes(key)) &&
+    ["--empId", "--date", "--beverage"].some(key => userKeys.includes(key))
+  );
 };
 
-const areArgsNotValid = function(transaction, pairedUserEnteredValues) {
+const areArgsValid = function(transaction, pairedUserEnteredValues) {
   const builtinTransactions = {
     save: areKeysValidForSave,
     query: areKeysValidForQuery
   };
   const areKeysValid = builtinTransactions[transaction];
-  if (!areKeysValid) {
-    return true;
-  }
-  return !areKeysValid(pairedUserEnteredValues);
+  return areKeysValid && areKeysValid(pairedUserEnteredValues);
 };
 
 const getUsage = function() {
@@ -135,7 +137,7 @@ exports.pairUserEnteredValues = pairUserEnteredValues;
 exports.loadTransactions = loadTransactions;
 exports.writeBeverages = writeBeverages;
 exports.getAsMessage = getAsMessage;
-exports.areArgsNotValid = areArgsNotValid;
+exports.areArgsValid = areArgsValid;
 exports.getUsage = getUsage;
 exports.getBeveragesOnEmpIdDateAndBeverages = getBeveragesOnEmpIdDateAndBeverages;
 exports.getTotal = getTotal;

@@ -14,8 +14,13 @@ describe("processTransaction", function() {
     const isExists = function(data) {
       return true;
     };
-    const fileSystem = { read: read, write: write, isExists: isExists };
-    const data = "[]";
+    const requiredProperties = {
+      read: read,
+      write: write,
+      isExists: isExists,
+      path: "[]",
+      date: getDate
+    };
     const userArgs = [
       "--save",
       "--beverage",
@@ -28,7 +33,7 @@ describe("processTransaction", function() {
     const expected =
       "Transaction Recorded:\nEmployee ID,Beverage,Quantity,Date\n11111,orange,1,2019-11-24T07:43:28.618Z";
     assert.deepStrictEqual(
-      processTransaction(fileSystem, data, userArgs, getDate),
+      processTransaction(userArgs, requiredProperties),
       expected
     );
   });
@@ -43,9 +48,14 @@ describe("processTransaction", function() {
     const getDate = function() {
       return new Date("2019-11-24T07:43:28.618Z");
     };
-    const fileSystem = { read: read, write: write, isExists: isExists };
-    const data =
-      '[{"empId":11111,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"}]';
+    const requiredProperties = {
+      read: read,
+      write: write,
+      isExists: isExists,
+      path:
+        '[{"empId":11111,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"}]',
+      date: getDate
+    };
     const userArgs = [
       "--save",
       "--beverage",
@@ -58,7 +68,7 @@ describe("processTransaction", function() {
     const expected =
       "Transaction Recorded:\nEmployee ID,Beverage,Quantity,Date\n11111,orange,1,2019-11-24T07:43:28.618Z";
     assert.deepStrictEqual(
-      processTransaction(fileSystem, data, userArgs, getDate),
+      processTransaction(userArgs, requiredProperties),
       expected
     );
   });
@@ -73,14 +83,19 @@ describe("processTransaction", function() {
     const getDate = function() {
       return "2019-11-24T07:43:28.618Z";
     };
-    const fileSystem = { read: read, write: write, isExists: isExists };
-    const data =
-      '[{"empId":11111,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"}]';
+    const requiredProperties = {
+      read: read,
+      write: write,
+      isExists: isExists,
+      path:
+        '[{"empId":11111,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"}]',
+      date: getDate
+    };
     const userArgs = ["--query", "--empId", "11111"];
     const expected =
       "Employee ID,Beverage,Quantity,Date\n11111,orange,1,2019-11-23T04:06:35.711Z\nTotal:1 Juices";
     assert.deepStrictEqual(
-      processTransaction(fileSystem, data, userArgs, getDate),
+      processTransaction(userArgs, requiredProperties),
       expected
     );
   });
@@ -95,14 +110,19 @@ describe("processTransaction", function() {
     const getDate = function() {
       return new Date("2019-11-24T07:43:28.618Z");
     };
-    const fileSystem = { read: read, write: write, isExists: isExists };
-    const data =
-      '[{"empId":11111,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"}]';
+    const requiredProperties = {
+      read: read,
+      write: write,
+      isExists: isExists,
+      path:
+        '[{"empId":11111,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"}]',
+      date: getDate
+    };
     const userArgs = ["--query", "--date", "2019-11-23"];
     const expected =
       "Employee ID,Beverage,Quantity,Date\n11111,orange,1,2019-11-23T04:06:35.711Z\nTotal:1 Juices";
     assert.deepStrictEqual(
-      processTransaction(fileSystem, data, userArgs, getDate),
+      processTransaction(userArgs, requiredProperties),
       expected
     );
   });
@@ -117,14 +137,19 @@ describe("processTransaction", function() {
     const getDate = function() {
       return "2019-11-24T07:43:28.618Z";
     };
-    const fileSystem = { read: read, write: write, isExists: isExists };
-    const data =
-      '[{"empId":11111,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"}]';
+    const requiredProperties = {
+      read: read,
+      write: write,
+      isExists: isExists,
+      path:
+        '[{"empId":11111,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"}]',
+      date: getDate
+    };
     const userArgs = ["--query", "--beverage", "orange"];
     const expected =
       "Employee ID,Beverage,Quantity,Date\n11111,orange,1,2019-11-23T04:06:35.711Z\nTotal:1 Juices";
     assert.deepStrictEqual(
-      processTransaction(fileSystem, data, userArgs, getDate),
+      processTransaction(userArgs, requiredProperties),
       expected
     );
   });
@@ -139,9 +164,14 @@ describe("processTransaction", function() {
     const getDate = function() {
       return "2019-11-24T07:43:28.618Z";
     };
-    const fileSystem = { read: read, write: write, isExists: isExists };
-    const data =
-      '[{"empId":11111,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"},{"empId":11111,"beverage":"pineapple","qty":1,"date":"2019-11-25T04:06:35.711Z"},{"empId":11111,"beverage":"water melon","qty":1,"date":"2019-11-27T04:06:35.711Z"}]';
+    const requiredProperties = {
+      read: read,
+      write: write,
+      isExists: isExists,
+      path:
+        '[{"empId":11111,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"},{"empId":11111,"beverage":"pineapple","qty":1,"date":"2019-11-25T04:06:35.711Z"},{"empId":11111,"beverage":"water melon","qty":1,"date":"2019-11-27T04:06:35.711Z"}]',
+      date: getDate
+    };
     const userArgs = [
       "--query",
       "--beverage",
@@ -154,7 +184,7 @@ describe("processTransaction", function() {
     const expected =
       "Employee ID,Beverage,Quantity,Date\n11111,pineapple,1,2019-11-25T04:06:35.711Z\nTotal:1 Juices";
     assert.deepStrictEqual(
-      processTransaction(fileSystem, data, userArgs, getDate),
+      processTransaction(userArgs, requiredProperties),
       expected
     );
   });
@@ -169,14 +199,19 @@ describe("processTransaction", function() {
     const getDate = function() {
       return "2019-11-24T07:43:28.618Z";
     };
-    const fileSystem = { read: read, write: write, isExists: isExists };
-    const data =
-      '[{"empId":11111,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"},{"empId":11111,"beverage":"pineapple","qty":5,"date":"2019-11-23T04:06:35.800Z"}]';
+    const requiredProperties = {
+      read: read,
+      write: write,
+      isExists: isExists,
+      path:
+        '[{"empId":11111,"beverage":"orange","qty":1,"date":"2019-11-23T04:06:35.711Z"},{"empId":11111,"beverage":"pineapple","qty":5,"date":"2019-11-23T04:06:35.800Z"}]',
+      date: getDate
+    };
     const userArgs = ["--query", "--empId", "11111"];
     const expected =
       "Employee ID,Beverage,Quantity,Date\n11111,orange,1,2019-11-23T04:06:35.711Z\n11111,pineapple,5,2019-11-23T04:06:35.800Z\nTotal:6 Juices";
     assert.deepStrictEqual(
-      processTransaction(fileSystem, data, userArgs, getDate),
+      processTransaction(userArgs, requiredProperties),
       expected
     );
   });
@@ -191,12 +226,17 @@ describe("processTransaction", function() {
     const getDate = function() {
       return "2019-11-24T07:43:28.618Z";
     };
-    const fileSystem = { read: read, write: write, isExists: isExists };
-    const data = "[]";
+    const requiredProperties = {
+      read: read,
+      write: write,
+      isExists: isExists,
+      path: "[]",
+      date: getDate
+    };
     const userArgs = ["--query", "--empId", "11111"];
     const expected = "Employee ID,Beverage,Quantity,Date\nTotal:0 Juices";
     assert.deepStrictEqual(
-      processTransaction(fileSystem, data, userArgs, getDate),
+      processTransaction(userArgs, requiredProperties),
       expected
     );
   });
@@ -211,13 +251,18 @@ describe("processTransaction", function() {
     const getDate = function() {
       return "2019-11-24T07:43:28.618Z";
     };
-    const fileSystem = { read: read, write: write, isExists: isExists };
-    const data = "[]";
+    const requiredProperties = {
+      read: read,
+      write: write,
+      isExists: isExists,
+      path: "[]",
+      date: getDate
+    };
     const userArgs = ["get", "--empId", "11111"];
     const expected =
       "node beverage.js --save --beverage [beverage value]--empId [empId value] --qty [qty value]\n\t\t--query --empId[empId value]";
     assert.deepStrictEqual(
-      processTransaction(fileSystem, data, userArgs, getDate),
+      processTransaction(userArgs, requiredProperties),
       expected
     );
   });

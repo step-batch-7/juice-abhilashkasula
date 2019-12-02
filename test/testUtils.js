@@ -3,7 +3,7 @@ const assert = chai.assert;
 const pairUserEnteredValues = require("../src/utils.js").pairUserEnteredValues;
 const loadTransactions = require("../src/utils.js").loadTransactions;
 const getAsMessage = require("../src/utils.js").getAsMessage;
-const areArgsNotValid = require("../src/utils.js").areArgsNotValid;
+const areArgsValid = require("../src/utils.js").areArgsValid;
 const getBeveragesOnEmpIdDateAndBeverages = require("../src/utils.js")
   .getBeveragesOnEmpIdDateAndBeverages;
 const getTotal = require("../src/utils.js").getTotal;
@@ -90,48 +90,68 @@ describe("getAsMessage", function() {
   });
 });
 
-describe("areArgsNotValid", function() {
-  it("should determine false for valid values given in any order for save", function() {
+describe("areArgsValid", function() {
+  it("should determine true for valid values given in any order for save", function() {
     const transaction = "save";
     let pairedUserEnteredValues = {
       "--empId": "11111",
       "--beverage": "orange",
       "--qty": "1"
     };
-    assert.ok(!areArgsNotValid(transaction, pairedUserEnteredValues));
+    assert.ok(areArgsValid(transaction, pairedUserEnteredValues));
     pairedUserEnteredValues = {
       "--qty": "1",
       "--beverage": "orange",
       "--empId": "11111"
     };
-    assert.ok(!areArgsNotValid(transaction, pairedUserEnteredValues));
+    assert.ok(areArgsValid(transaction, pairedUserEnteredValues));
   });
-  it("should determine false for valid values for query", function() {
+  it("should determine true for valid values for query", function() {
     const transaction = "query";
     let pairedUserEnteredValues = { "--empId": "11111" };
-    assert.ok(!areArgsNotValid(transaction, pairedUserEnteredValues));
+    assert.ok(areArgsValid(transaction, pairedUserEnteredValues));
   });
-  it("should determine true for any value missing for save", function() {
+  it("should determine false for any value missing for save", function() {
     const transaction = "save";
     let pairedUserEnteredValues = {
       "--empId": "11111",
       "--beverage": "orange"
     };
-    assert.ok(areArgsNotValid(transaction, pairedUserEnteredValues));
+    assert.ok(!areArgsValid(transaction, pairedUserEnteredValues));
   });
-  it("should determine true for any value missing for query", function() {
+  it("should determine false for any value missing for query", function() {
     const transaction = "query";
     let pairedUserEnteredValues = {};
-    assert.ok(areArgsNotValid(transaction, pairedUserEnteredValues));
+    assert.ok(!areArgsValid(transaction, pairedUserEnteredValues));
   });
-  it("should determine true for command other than save", function() {
+  it("should determine false for command other than save", function() {
     const transaction = undefined;
     pairedUserEnteredValues = {
       "--qty": "1",
       "--beverage": "orange",
       "--empId": "11111"
     };
-    assert.ok(areArgsNotValid(transaction, pairedUserEnteredValues));
+    assert.ok(!areArgsValid(transaction, pairedUserEnteredValues));
+  });
+  it("should determine false for values other than empId,qty and beverage for save", () => {
+    const transaction = "save";
+    const pairedUserEnteredValues = {
+      "--empId": "11111",
+      "--beverage": "Orange",
+      "--qty": "1",
+      "--hello": "hello"
+    };
+    assert.ok(!areArgsValid(transaction, pairedUserEnteredValues));
+  });
+  it("should determine false for values other than empId,date and beverage for query", () => {
+    const transaction = "query";
+    const pairedUserEnteredValues = {
+      "--empId": "11111",
+      "--beverage": "Orange",
+      "--date": "2019-12-02",
+      "--hello": "hello"
+    };
+    assert.ok(!areArgsValid(transaction, pairedUserEnteredValues));
   });
 });
 
