@@ -1,10 +1,11 @@
 const fs = require("fs");
 
 const getTotal = function(beveragesData) {
-  return beveragesData.reduce(function(total, obj) {
+  const total = beveragesData.reduce(function(total, obj) {
     let value = +obj.qty;
     return total + value;
   }, 0);
+  return total == 1 ? total + " Juice" : total + " Juices";
 };
 
 const pairUserEnteredValues = function(userEnteredValues) {

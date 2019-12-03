@@ -93,7 +93,7 @@ describe("processTransaction", function() {
     };
     const userArgs = ["--query", "--empId", "11111"];
     const expected =
-      "Employee ID,Beverage,Quantity,Date\n11111,orange,1,2019-11-23T04:06:35.711Z\nTotal:1 Juices";
+      "Employee ID,Beverage,Quantity,Date\n11111,orange,1,2019-11-23T04:06:35.711Z\nTotal:1 Juice";
     assert.deepStrictEqual(
       processTransaction(userArgs, requiredProperties),
       expected
@@ -120,7 +120,7 @@ describe("processTransaction", function() {
     };
     const userArgs = ["--query", "--date", "2019-11-23"];
     const expected =
-      "Employee ID,Beverage,Quantity,Date\n11111,orange,1,2019-11-23T04:06:35.711Z\nTotal:1 Juices";
+      "Employee ID,Beverage,Quantity,Date\n11111,orange,1,2019-11-23T04:06:35.711Z\nTotal:1 Juice";
     assert.deepStrictEqual(
       processTransaction(userArgs, requiredProperties),
       expected
@@ -147,7 +147,7 @@ describe("processTransaction", function() {
     };
     const userArgs = ["--query", "--beverage", "orange"];
     const expected =
-      "Employee ID,Beverage,Quantity,Date\n11111,orange,1,2019-11-23T04:06:35.711Z\nTotal:1 Juices";
+      "Employee ID,Beverage,Quantity,Date\n11111,orange,1,2019-11-23T04:06:35.711Z\nTotal:1 Juice";
     assert.deepStrictEqual(
       processTransaction(userArgs, requiredProperties),
       expected
@@ -182,7 +182,7 @@ describe("processTransaction", function() {
       "2019-11-25"
     ];
     const expected =
-      "Employee ID,Beverage,Quantity,Date\n11111,pineapple,1,2019-11-25T04:06:35.711Z\nTotal:1 Juices";
+      "Employee ID,Beverage,Quantity,Date\n11111,pineapple,1,2019-11-25T04:06:35.711Z\nTotal:1 Juice";
     assert.deepStrictEqual(
       processTransaction(userArgs, requiredProperties),
       expected

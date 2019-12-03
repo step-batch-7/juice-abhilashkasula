@@ -25,7 +25,7 @@ describe("query", function() {
             date: new Date("2019-11-25T18:27:52.164Z")
           }
         ],
-        `\nTotal:1 Juices`
+        `\nTotal:1 Juice`
       ]
     };
     assert.deepStrictEqual(query(data, pairedOptions), expected);
@@ -84,7 +84,7 @@ describe("query", function() {
             date: new Date("2019-11-26T18:27:52.164Z")
           }
         ],
-        "\nTotal:1 Juices"
+        "\nTotal:1 Juice"
       ]
     };
     assert.deepStrictEqual(query(data, pairedOptions), expected);
@@ -223,7 +223,7 @@ describe("query", function() {
             date: new Date("2019-11-25T18:27:52.164Z")
           }
         ],
-        "\nTotal:1 Juices"
+        "\nTotal:1 Juice"
       ]
     };
     assert.deepStrictEqual(query(data, pairedOptions), expected);
@@ -266,7 +266,7 @@ describe("query", function() {
             date: new Date("2019-11-27T18:27:52.164Z")
           }
         ],
-        "\nTotal:1 Juices"
+        "\nTotal:1 Juice"
       ]
     };
     assert.deepStrictEqual(query(data, pairedOptions), expected);

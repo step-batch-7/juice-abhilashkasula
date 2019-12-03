@@ -9,7 +9,7 @@ const generateQueryMessage = function(transactions, transactionMadeNow) {
     transactionDetails: [
       `Employee ID,Beverage,Quantity,Date`,
       transactionMadeNow,
-      `\nTotal:${getTotal(transactionMadeNow)} Juices`
+      `\nTotal:${getTotal(transactionMadeNow)}`
     ]
   };
 };

@@ -1,4 +1,4 @@
 (export NOW="2019-11-28T12:00:00.000Z";export JUICE_TRANSACTIONS_STORE_PATH="./appTests/presets/preset_for_query_on_beverage_empId_and_date.json";node beverage.js --query --beverage Mango --date 2019-11-28T12:00:00.000Z)
 Employee ID,Beverage,Quantity,Date
 11111,Mango,1,2019-11-28T12:00:00.000Z
-Total:1 Juices
+Total:1 Juice

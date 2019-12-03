@@ -346,6 +346,6 @@ describe("getTotal", function() {
     const beveragesData = JSON.parse(
       '[{"empId":"25323","beverage":"orange","qty":"2","date":"2019-11-25T18:27:52.164Z"},{"empId":"25555","beverage":"orange","qty":"5","date":"2019-11-25T18:27:52.164Z"}]'
     );
-    assert.deepStrictEqual(getTotal(beveragesData), 7);
+    assert.deepStrictEqual(getTotal(beveragesData), "7 Juices");
   });
 });
